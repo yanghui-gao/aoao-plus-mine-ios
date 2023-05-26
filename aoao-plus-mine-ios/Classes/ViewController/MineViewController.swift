@@ -42,12 +42,8 @@ class MineViewController: AAViewController {
 	}
 	func setUI() {
         if let model = UserModelManager.manager.userInfoModel {
-            self.nameLabel.text = model.accountInfo?.name
-            self.phoneLabel.text = model.accountInfo?.mobileStr
-			/// 工作状态根据店铺管理
-			/// 不同门店有不同工作状态
-//            let name = model.workStateStr == .activeWorker ? "incumbency" : "dimission"
-//            self.jobStatusimageView.image = UIImage(named: name, in: AAMineModule.share.bundle, compatibleWith: nil)
+            self.nameLabel.text = model.name
+            self.phoneLabel.text = model.phoneStr
         }
 		
 		let layout = UICollectionViewFlowLayout()
@@ -63,6 +59,8 @@ class MineViewController: AAViewController {
 		self.rightButton.rx.tap.subscribe(onNext: { _ in
 			self.navigationController?.popViewController(animated: true)
 		}).disposed(by: self.disposeBag)
+		
+		
 	}
 	func setCollectionDateSource() {
 		dateSource = [["name": "骑手信息", "icon": "knight", "type": "knight"],
