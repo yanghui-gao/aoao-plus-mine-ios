@@ -4,7 +4,7 @@
 
 import Foundation 
 import SwiftyJSON
-import aoao_net_ios
+import aoao_plus_net_ios
 
 class UpLoadVaccineContentModel : NSObject, NSCoding, AAModelProtocol{
 
