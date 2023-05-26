@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'aoao-plus-mine-ios_Example' do
+  pod 'aoao-plus-mine-ios', :path => '../'
+
+  target 'aoao-plus-mine-ios_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
