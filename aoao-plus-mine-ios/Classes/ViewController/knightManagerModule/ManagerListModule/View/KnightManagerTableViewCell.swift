@@ -1,0 +1,78 @@
+//
+//  KnightManagerTableViewCell.swift
+//  aoao-mine-ios
+//
+//  Created by 高炀辉 on 2021/6/7.
+//
+
+import UIKit
+
+class KnightManagerTableViewCell: UITableViewCell {
+	
+	// 骑手名称
+	@IBOutlet weak var nameLabel: UILabel!
+	// 组长
+	@IBOutlet weak var leaderView: UIView!
+	// 配送View
+	@IBOutlet weak var distributionView: UIView!
+	// 无单
+	@IBOutlet weak var noneOrderView: UIView!
+	// 工作状态
+	@IBOutlet weak var workStatueLabel: UILabel!
+	// 距离门店距离
+	@IBOutlet weak var locationLabel: UILabel!
+	// 离岗
+	@IBOutlet weak var dimissionButton: UIButton!
+	// 骑手信息View
+	@IBOutlet weak var knightContentView: UIView!
+	
+	@IBOutlet weak var leadingView: UIView!
+	// 离岗点击回调
+	var dismissionButtonHandle: (() -> Void)?
+	
+	var model:KnightManagerModel?{
+		didSet {
+			if let model = self.model {
+				self.nameLabel.text = model.courierName
+				self.leaderView.isHidden = model.knightRoleType == .knight
+				self.leadingView.isHidden = model.knightRoleType == .knight
+				self.distributionView.isHidden = !model.isdoing
+				self.workStatueLabel.text = model.knightWorkType.workStatusStr()
+				self.workStatueLabel.textColor = model.knightWorkType.workStatusColor()
+				self.locationLabel.text = "距门店距离" + model.distance
+				self.dimissionButton.isHidden = !model.isShowDismissButton
+				self.noneOrderView.isHidden = !model.isLeisure
+			}
+		}
+	}
+	
+	override func awakeFromNib() {
+        super.awakeFromNib()
+		self.dimissionButton.layer.cornerRadius = 15
+		self.leaderView.layer.borderWidth = 0.5
+		self.leaderView.layer.cornerRadius = 4
+		self.leaderView.layer.borderColor = UIColor(named: "color_FDAD04", in: AAMineModule.share.bundle, compatibleWith: nil)?.cgColor
+		
+		self.distributionView.layer.borderWidth = 0.5
+		self.distributionView.layer.cornerRadius = 4
+		self.distributionView.layer.borderColor = UIColor(named: "Color_00AD66", in: AAMineModule.share.bundle, compatibleWith: nil)?.cgColor
+		
+		self.noneOrderView.layer.borderWidth = 0.5
+		self.noneOrderView.layer.cornerRadius = 4
+		self.noneOrderView.layer.borderColor = UIColor(named: "boss_000000-40_FFFFFF-40", in: AAMineModule.share.bundle, compatibleWith: nil)?.cgColor
+		
+    }
+
+	@IBAction func dismissionButtonClicked(_ sender: Any) {
+		guard let handle = self.dismissionButtonHandle else {
+			return
+		}
+		handle()
+	}
+	override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+
+}
