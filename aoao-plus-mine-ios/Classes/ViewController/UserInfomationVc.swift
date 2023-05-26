@@ -33,7 +33,7 @@ class UserInfomationVc: AAViewController {
 	
 	@IBOutlet weak var idCardTipLabel: UILabel!
 	
-	var userInfoModel: UserInfoModel?
+	var userInfoModel: KnightDetailInfoModel?
 	
 	let disposeBag = DisposeBag()
 	
@@ -49,12 +49,12 @@ class UserInfomationVc: AAViewController {
 		
         if let model = userInfoModel{
             // 当 可以更改身份信息 且 身份信息为 临时身份信息时
-			nameLabel.text = model.accountInfo.name
+			nameLabel.text = model.name
             genderLabel.text  = model.gender
             birthDateLabel.text = model.birthDateStr
             nationalLabel.text = model.national
             idCardNumberLabel.text = model.idCardStr
-            idCardTypeLabel.text = model.idCardInfo.idCardTypeStr
+			idCardTypeLabel.text = model.idCardInfo.idCardTypeStr
             PeriodValidityLabel.text = model.idCardInfo.idCardStartDateStr + "~" + model.idCardInfo.idCardEndDateStr
 			
 			
