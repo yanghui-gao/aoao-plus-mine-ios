@@ -13,34 +13,34 @@ import RxSwift
 import aoao_plus_common_ios
 
 class GetUserInfoViewModel {
-	typealias ParaType = (detectionDate: String, detectionOverdue: String, inoculate: String, detectionImageKey: String, inoculateImageKey: String)
 	
 	let disposebag = DisposeBag()
 
-	let outPutResultObservable = PublishSubject<UserInfoModel>()
+	let outPutResultObservable = PublishSubject<KnightUserInfoModel>()
 
 	let outPutErrorObservable = PublishSubject<AAErrorModel>()
 	
 	init(input: Input) {
 		
-		input.getUserInfoContent.flatMapLatest{ accountID -> Single<Result<UserInfoModel, AAErrorModel>> in
-			/// 用户信息
-			let request = MultiTarget(UpLoadVaccineContentAPI.getKnightContent(accountID: accountID))
-			return aoaoAPIProvider.rx.aoaoRequest(request).mapObject(objectType: UserInfoModel.self)
-		}.subscribe(onNext: { res in
-			switch res {
-			case .success(let model):
-				self.outPutResultObservable.onNext(model)
-			case .failure(let error):
-				self.outPutErrorObservable.onNext(error)
-			}
-		}).disposed(by: disposebag)
+		input.getUserInfoContent
+			.map{KnightInfoAPI.getKnightContent(accountID: $0)}
+			.map{MultiTarget($0)}
+			.flatMapLatest{aoaoAPIProvider.rx.aoaoRequestToObservable($0)}
+			.mapObject(objectType: KnightUserInfoModel.self)
+			.subscribe(onNext: { res in
+				switch res {
+				case .success(let model):
+					self.outPutResultObservable.onNext(model)
+				case .failure(let error):
+					self.outPutErrorObservable.onNext(error)
+				}
+			}).disposed(by: disposebag)
 	}
 
 }
 extension GetUserInfoViewModel {
 	struct Input {
-		/// 获取序列
+		/// 获取骑手信息序列
 		let getUserInfoContent: Observable<String>
 	}
 }
