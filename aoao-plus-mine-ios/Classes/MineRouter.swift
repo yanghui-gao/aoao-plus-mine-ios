@@ -54,18 +54,6 @@ public struct MineRouter {
 			}
 			return vc
 		}
-		/// 骑手信息 - 附加信息
-		navigator.register("vaccine".routerUrl) { url, values, context in
-			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "UpLoadVaccineContentViewController") as! UpLoadVaccineContentViewController
-			guard let para = context as? [String: Any?] else {
-				return vc
-			}
-			/// 用户信息
-			if let model = para["userInfoModel"] as? UserInfoModel {
-				vc.userInfoModel = model
-			}
-			return vc
-		}
 		/// 帮助
 		navigator.register("help".routerUrl) { url, values, context in
 			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "HelpViewController")
