@@ -7,9 +7,9 @@
 
 import Foundation
 import Moya
-import aoao_net_ios
+import aoao_plus_net_ios
 import RxSwift
-import aoao_common_ios
+import aoao_plus_common_ios
 
 public enum AccountCancellationAPI {
 	/// 发起注销

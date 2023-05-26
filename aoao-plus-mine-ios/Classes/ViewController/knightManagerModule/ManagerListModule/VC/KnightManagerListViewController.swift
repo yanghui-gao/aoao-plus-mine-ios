@@ -7,7 +7,7 @@
 
 import UIKit
 import XLPagerTabStrip
-import aoao_common_ios
+import aoao_plus_common_ios
 import RxSwift
 import DZNEmptyDataSet
 

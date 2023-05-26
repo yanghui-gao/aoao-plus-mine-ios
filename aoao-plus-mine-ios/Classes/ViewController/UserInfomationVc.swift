@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 import RxSwift
-import aoao_common_ios
+import aoao_plus_common_ios
 import SwiftyJSON
 
 class UserInfomationVc: AAViewController {

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import aoao_common_ios
+import aoao_plus_common_ios
 
 class AboutVc: AAViewController {
 	/// 版本号Label

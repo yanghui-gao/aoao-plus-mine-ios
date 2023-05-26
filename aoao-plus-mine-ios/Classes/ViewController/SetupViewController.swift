@@ -7,7 +7,7 @@
 
 import UIKit
 import RxSwift
-import aoao_common_ios
+import aoao_plus_common_ios
 
 class SetupViewController: AAViewController {
 	/// 语音提示开关
