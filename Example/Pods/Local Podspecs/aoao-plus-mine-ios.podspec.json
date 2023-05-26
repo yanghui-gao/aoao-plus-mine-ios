@@ -1,0 +1,22 @@
+{
+  "name": "aoao-plus-mine-ios",
+  "version": "0.1.0",
+  "summary": "A short description of aoao-plus-mine-ios.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/高炀辉/aoao-plus-mine-ios",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "高炀辉": "insistgyh@foxmail.com"
+  },
+  "source": {
+    "git": "https://github.com/高炀辉/aoao-plus-mine-ios.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "aoao-plus-mine-ios/Classes/**/*"
+}

@@ -1,0 +1,6 @@
+framework module aoao_plus_mine_ios {
+  umbrella header "aoao-plus-mine-ios-umbrella.h"
+
+  export *
+  module * { export * }
+}

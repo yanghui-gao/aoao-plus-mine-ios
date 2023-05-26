@@ -1,0 +1,16 @@
+PODS:
+  - aoao-plus-mine-ios (0.1.0)
+
+DEPENDENCIES:
+  - aoao-plus-mine-ios (from `../`)
+
+EXTERNAL SOURCES:
+  aoao-plus-mine-ios:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  aoao-plus-mine-ios: e579567745b8513732336ab543297603a66cc155
+
+PODFILE CHECKSUM: 3a80450e185115b0d538d67f0e0555fdd907b65c
+
+COCOAPODS: 1.11.3
