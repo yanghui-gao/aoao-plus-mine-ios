@@ -8,111 +8,111 @@ import aoao_plus_common_ios
 import aoao_plus_net_ios
 
 
-class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
+public class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
 
-	var id : String!
+	public var id : String!
 	/// 归属区域ID
-	var areaId : String!
+	public var areaId : String!
 	/// 区域名称
-	var areaName : String!
+	public var areaName : String!
 	/// 实名认证的时间
-	var authenticationAt : String!
+	public var authenticationAt : String!
 	/// 实名认证状态
-	var authenticationState : Int!
+	public var authenticationState : Int!
 	/// 实名认证状态
-	var authenticateState : AuthenticationState {
-		return AuthenticationState(rawValue: authenticationState) ?? .none
-	}
+	public var authenticateState : AuthenticationState {
+	 	return AuthenticationState(rawValue: authenticationState) ?? .none
+	 }
 	/// 实名认证的方式 10 身份证 20 人脸识别
-	var authenticationType : Int!
-	var userAuthenticationType:UserAuthenticationType{
-		return UserAuthenticationType(rawValue: authenticationType) ?? .none
-	}
+	public var authenticationType : Int!
+	public var userAuthenticationType:UserAuthenticationType{
+	 	return UserAuthenticationType(rawValue: authenticationType) ?? .none
+	 }
 	/// 出生日期
-	var birthDate : Int!
+	public var birthDate : Int!
 	/// 城市编码
-	var cityCode : String!
+	public var cityCode : String!
 	/// 城市名称
-	var cityName : String!
+	public var cityName : String!
 	/// 骑手编码
-	var code : String!
+	public var code : String!
 	/// 创建时间
-	var createdAt : String!
+	public var createdAt : String!
 	/// 创建人
-	var creatorName : String!
+	public var creatorName : String!
 	/// 分组ID
-	var groupsId : String!
+	public var groupsId : String!
 	/// 分组名称
-	var groupsName : String!
+	public var groupsName : String!
 	/// 健康证信息
-	var healthCardInfo : KnightDetailInfoHealthCardInfo!
+	public var healthCardInfo : KnightDetailInfoHealthCardInfo!
 	/// 健康证状态(1:未完善/100:已完善)
-	var healthCardState : Int!
-	var userHealthCardState:HealthCardState {
-		return HealthCardState(rawValue: healthCardState) ?? .none
-	}
+	public var healthCardState : Int!
+	public var userHealthCardState:HealthCardState {
+	 	return HealthCardState(rawValue: healthCardState) ?? .none
+	 }
 	/// 身份信息
-	var idCardInfo : KnightDetailInfoIdCardInfo!
+	public var idCardInfo : KnightDetailInfoIdCardInfo!
 	/// 身份证号码
-	var idCardNum : String!
+	public var idCardNum : String!
 	/// 身份证状态【1：未完善/100：已完善】
-	var idCardState : Int!
-	var userIdCardState: IdCardState {
-		return IdCardState(rawValue: idCardState) ?? .none
-	}
+	public var idCardState : Int!
+	public var userIdCardState: IdCardState {
+	 	return IdCardState(rawValue: idCardState) ?? .none
+	 }
 	/// 入职日期yyyymmdd
-	var joinDate : Int!
+	public var joinDate : Int!
 	/// 居住地址
-	var liveAddress : String!
+	public var liveAddress : String!
 	/// 居住城市编码
-	var liveCityCode : String!
+	public var liveCityCode : String!
 	/// 居住城市
-	var liveCityName : String!
+	public var liveCityName : String!
 	/// 姓名
-	var name : String!
+	public var name : String!
 	/// 民族
-	var national : String!
+	public var national : String!
 	/// 操作人
-	var operatorName : String!
+	public var operatorName : String!
 	/// 合同信息
-	var pactInfo : KnightDetailInfoPactInfo!
+	public var pactInfo : KnightDetailInfoPactInfo!
 	/// 手机号
-	var phone : String!
+	public var phone : String!
 	/// 角色
-	var role : Int!
-	var userRole: UserRole {
-		return UserRole.init(rawValue: role) ?? .none
-	}
+	public var role : Int!
+	public var userRole: UserRole {
+	 	return UserRole.init(rawValue: role) ?? .none
+	 }
 	/// 性别
-	var sex : Int!
+	public var sex : Int!
 	/// 签约状态
-	var signState : Int!
+	public var signState : Int!
 	/// 签约状态
-	var userSignState: UserSignState {
-		return UserSignState(rawValue: signState) ?? .none
-	}
+	public var userSignState: UserSignState {
+	 	return UserSignState(rawValue: signState) ?? .none
+	 }
 	/// 在职状态
-	var state : Int!
-	var userJobState:UserJobState {
-		return UserJobState.init(rawValue: state) ?? .none
-	}
+	public var state : Int!
+	public var userJobState:UserJobState {
+	 	return UserJobState.init(rawValue: state) ?? .none
+	 }
 	/// 更新时间
-	var updatedAt : String!
+	public var updatedAt : String!
 	/// 工作状态(100:在岗 -100:离岗)
-	var workState : Int!
-	var userWorkState: UserWorkState {
-		return UserWorkState.init(rawValue: workState) ?? .none
-	}
+	public var workState : Int!
+	public var userWorkState: UserWorkState {
+	 	return UserWorkState.init(rawValue: workState) ?? .none
+	 }
 	/// 工作类型10全职，20：兼职
-	var workType : Int!
-	var userWorkType:UserWorkType {
+	public var workType : Int!
+	public var userWorkType:UserWorkType {
 		return UserWorkType(rawValue: workType) ?? .none
 	}
 
 	/**
 	 * Instantiate the instance using the passed json values to set the properties values
 	 */
-	required init(fromJson json: JSON!){
+	required public init(fromJson json: JSON!){
 		if json.isEmpty{
 			return
 		}
@@ -165,7 +165,7 @@ class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
 	/**
 	 * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
 	 */
-	func toDictionary() -> [String:Any]
+	public func toDictionary() -> [String:Any]
 	{
 		var dictionary = [String:Any]()
 		if id != nil{
@@ -280,7 +280,7 @@ class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
     * NSCoding required initializer.
     * Fills the data from the passed decoder
     */
-    @objc required init(coder aDecoder: NSCoder)
+    @objc public required init(coder aDecoder: NSCoder)
 	{
          id = aDecoder.decodeObject(forKey: "_id") as? String
          areaId = aDecoder.decodeObject(forKey: "area_id") as? String
@@ -324,7 +324,7 @@ class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
     * NSCoding required method.
     * Encodes mode properties into the decoder
     */
-    func encode(with aCoder: NSCoder)
+	public func encode(with aCoder: NSCoder)
 	{
 		if id != nil{
 			aCoder.encode(id, forKey: "_id")

@@ -6,26 +6,26 @@ import Foundation
 import SwiftyJSON
 
 
-class KnightDetailInfoPactInfo : NSObject, NSCoding{
+public class KnightDetailInfoPactInfo : NSObject, NSCoding{
 
 	/// 是否可以签约
-	var allowSign : Bool!
+	public var allowSign : Bool!
 	/// 过期时间
-	var endDate : Int!
+	public var endDate : Int!
 	/// 开始时间
-	var fromDate : Int!
+	public var fromDate : Int!
 	/// 合同地址
-	var pactUrl : String!
+	public var pactUrl : String!
 	/// 签约状态
-	var signState : Int!
-	/// 合同状态 【1:待签约，10: 待签约，50:待签约，100:生效中，-100:已失效，-110:已作废
-	var state : Int!
+	public var signState : Int!
+	/// 合同状态 【1:待签约，10: public 待签约，50:待签约，100:生效中，-100:已失效，-110:已作废
+	public var state : Int!
 
 
 	/**
 	 * Instantiate the instance using the passed json values to set the properties values
 	 */
-	init(fromJson json: JSON!){
+	public init(fromJson json: JSON!){
 		if json.isEmpty{
 			return
 		}
@@ -40,7 +40,7 @@ class KnightDetailInfoPactInfo : NSObject, NSCoding{
 	/**
 	 * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
 	 */
-	func toDictionary() -> [String:Any]
+	public func toDictionary() -> [String:Any]
 	{
 		var dictionary = [String:Any]()
 		if allowSign != nil{
@@ -68,7 +68,7 @@ class KnightDetailInfoPactInfo : NSObject, NSCoding{
     * NSCoding required initializer.
     * Fills the data from the passed decoder
     */
-    @objc required init(coder aDecoder: NSCoder)
+    @objc public required init(coder aDecoder: NSCoder)
 	{
          allowSign = aDecoder.decodeObject(forKey: "allow_sign") as? Bool
          endDate = aDecoder.decodeObject(forKey: "end_date") as? Int
@@ -83,7 +83,7 @@ class KnightDetailInfoPactInfo : NSObject, NSCoding{
     * NSCoding required method.
     * Encodes mode properties into the decoder
     */
-    func encode(with aCoder: NSCoder)
+	public func encode(with aCoder: NSCoder)
 	{
 		if allowSign != nil{
 			aCoder.encode(allowSign, forKey: "allow_sign")

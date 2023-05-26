@@ -6,25 +6,25 @@ import Foundation
 import SwiftyJSON
 
 
-class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
+public class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
 	/// 反面照片
-	var backUrl : String!
+	public var backUrl : String!
 	/// 过期时间
-	var endDate : Int!
+	public var endDate : Int!
 	/// 开始时间
-	var fromDate : Int!
+	public var fromDate : Int!
 	/// 正面照片
-	var frontUrl : String!
+	public var frontUrl : String!
 	/// 手持照片
-	var handUrl : String!
+	public var handUrl : String!
 	/// 状态【1:未完善，100:已完善，-100:已过期】
-	var state : Int!
+	public var state : Int!
 
 
 	/**
 	 * Instantiate the instance using the passed json values to set the properties values
 	 */
-	init(fromJson json: JSON!){
+	public init(fromJson json: JSON!){
 		if json.isEmpty{
 			return
 		}
@@ -39,7 +39,7 @@ class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
 	/**
 	 * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
 	 */
-	func toDictionary() -> [String:Any]
+	public func toDictionary() -> [String:Any]
 	{
 		var dictionary = [String:Any]()
 		if backUrl != nil{
@@ -67,7 +67,7 @@ class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
     * NSCoding required initializer.
     * Fills the data from the passed decoder
     */
-    @objc required init(coder aDecoder: NSCoder)
+    @objc public required init(coder aDecoder: NSCoder)
 	{
          backUrl = aDecoder.decodeObject(forKey: "back_url") as? String
          endDate = aDecoder.decodeObject(forKey: "end_date") as? Int
@@ -82,7 +82,7 @@ class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
     * NSCoding required method.
     * Encodes mode properties into the decoder
     */
-    func encode(with aCoder: NSCoder)
+	public func encode(with aCoder: NSCoder)
 	{
 		if backUrl != nil{
 			aCoder.encode(backUrl, forKey: "back_url")
