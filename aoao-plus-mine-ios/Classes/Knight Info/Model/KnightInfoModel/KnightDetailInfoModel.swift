@@ -4,51 +4,115 @@
 
 import Foundation 
 import SwiftyJSON
+import aoao_plus_common_ios
+import aoao_plus_net_ios
 
 
-class KnightDetailInfoModel : NSObject, NSCoding{
+class KnightDetailInfoModel : NSObject, NSCoding, AAModelProtocol{
 
 	var id : String!
+	/// 归属区域ID
 	var areaId : String!
+	/// 区域名称
 	var areaName : String!
+	/// 实名认证的时间
 	var authenticationAt : String!
+	/// 实名认证状态
 	var authenticationState : Int!
+	/// 实名认证状态
+	var authenticateState : AuthenticationState {
+		return AuthenticationState(rawValue: authenticationState) ?? .none
+	}
+	/// 实名认证的方式 10 身份证 20 人脸识别
 	var authenticationType : Int!
+	var userAuthenticationType:UserAuthenticationType{
+		return UserAuthenticationType(rawValue: authenticationType) ?? .none
+	}
+	/// 出生日期
 	var birthDate : Int!
+	/// 城市编码
 	var cityCode : String!
+	/// 城市名称
 	var cityName : String!
+	/// 骑手编码
 	var code : String!
+	/// 创建时间
 	var createdAt : String!
+	/// 创建人
 	var creatorName : String!
+	/// 分组ID
 	var groupsId : String!
+	/// 分组名称
 	var groupsName : String!
+	/// 健康证信息
 	var healthCardInfo : KnightDetailInfoHealthCardInfo!
+	/// 健康证状态(1:未完善/100:已完善)
 	var healthCardState : Int!
+	var userHealthCardState:HealthCardState {
+		return HealthCardState(rawValue: healthCardState) ?? .none
+	}
+	/// 身份信息
 	var idCardInfo : KnightDetailInfoIdCardInfo!
+	/// 身份证号码
 	var idCardNum : String!
+	/// 身份证状态【1：未完善/100：已完善】
 	var idCardState : Int!
+	var userIdCardState: IdCardState {
+		return IdCardState(rawValue: idCardState) ?? .none
+	}
+	/// 入职日期yyyymmdd
 	var joinDate : Int!
+	/// 居住地址
 	var liveAddress : String!
+	/// 居住城市编码
 	var liveCityCode : String!
+	/// 居住城市
 	var liveCityName : String!
+	/// 姓名
 	var name : String!
+	/// 民族
 	var national : String!
+	/// 操作人
 	var operatorName : String!
+	/// 合同信息
 	var pactInfo : KnightDetailInfoPactInfo!
+	/// 手机号
 	var phone : String!
+	/// 角色
 	var role : Int!
+	var userRole: UserRole {
+		return UserRole.init(rawValue: role) ?? .none
+	}
+	/// 性别
 	var sex : Int!
+	/// 签约状态
 	var signState : Int!
+	/// 签约状态
+	var userSignState: UserSignState {
+		return UserSignState(rawValue: signState) ?? .none
+	}
+	/// 在职状态
 	var state : Int!
+	var userJobState:UserJobState {
+		return UserJobState.init(rawValue: state) ?? .none
+	}
+	/// 更新时间
 	var updatedAt : String!
+	/// 工作状态(100:在岗 -100:离岗)
 	var workState : Int!
+	var userWorkState: UserWorkState {
+		return UserWorkState.init(rawValue: workState) ?? .none
+	}
+	/// 工作类型10全职，20：兼职
 	var workType : Int!
-
+	var userWorkType:UserWorkType {
+		return UserWorkType(rawValue: workType) ?? .none
+	}
 
 	/**
 	 * Instantiate the instance using the passed json values to set the properties values
 	 */
-	init(fromJson json: JSON!){
+	required init(fromJson json: JSON!){
 		if json.isEmpty{
 			return
 		}
