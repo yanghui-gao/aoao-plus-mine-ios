@@ -8,11 +8,17 @@ import SwiftyJSON
 
 class KnightDetailInfoPactInfo : NSObject, NSCoding{
 
+	/// 是否可以签约
 	var allowSign : Bool!
+	/// 过期时间
 	var endDate : Int!
+	/// 开始时间
 	var fromDate : Int!
+	/// 合同地址
 	var pactUrl : String!
+	/// 签约状态
 	var signState : Int!
+	/// 合同状态 【1:待签约，10: 待签约，50:待签约，100:生效中，-100:已失效，-110:已作废
 	var state : Int!
 
 
