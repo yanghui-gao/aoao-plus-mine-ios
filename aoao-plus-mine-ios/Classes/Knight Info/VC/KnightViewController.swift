@@ -169,9 +169,9 @@ class KnightViewController: AAViewController {
 		self.getUserInfoViewModel?.outPutResultObservable.subscribe(onNext: { model in
 			/// 如果操作用户对象为当前用户时 更新本地用户对象
 			self.userInfoModel = model
-			if model.id == UserModelManager.manager.userInfoModel?.id {
-				UserModelManager.manager.setUserModel(userModel: model)
-			}
+//			if model.id == UserModelManager.manager.userInfoModel?.id {
+//				UserModelManager.manager.setUserModel(userModel: model)
+//			}
 			
 			self.otherisComplete = model.vaccinationIsOk && model.isOrderTaker
 			self.healthisComplete = model.healthIsOk
