@@ -7,12 +7,17 @@ import SwiftyJSON
 
 
 class KnightDetailInfoIdCardInfo : NSObject, NSCoding{
-
+	/// 反面照片
 	var backUrl : String!
+	/// 过期时间
 	var endDate : Int!
+	/// 开始时间
 	var fromDate : Int!
+	/// 正面照片
 	var frontUrl : String!
+	/// 手持照片
 	var handUrl : String!
+	/// 状态【1:未完善，100:已完善，-100:已过期】
 	var state : Int!
 
 
