@@ -7,11 +7,15 @@ import SwiftyJSON
 
 
 class KnightDetailInfoHealthCardInfo : NSObject, NSCoding{
-
+	/// 反面照片
 	var backUrl : String!
+	/// 过期时间
 	var endDate : Int!
+	/// 开始时间
 	var fromDate : Int!
+	/// 正面url
 	var frontUrl : String!
+	/// 状态
 	var state : Int!
 
 
