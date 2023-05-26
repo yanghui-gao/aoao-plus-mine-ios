@@ -37,7 +37,7 @@ public struct MineRouter {
 				return vc
 			}
 			/// 用户信息
-			if let model = para["userInfoModel"] as? UserInfoModel {
+			if let model = para["userInfoModel"] as? KnightDetailInfoModel {
 				vc.userInfoModel = model
 			}
 			return vc
