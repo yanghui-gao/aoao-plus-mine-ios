@@ -16,7 +16,7 @@ class GetUserInfoViewModel {
 	
 	let disposebag = DisposeBag()
 
-	let outPutResultObservable = PublishSubject<KnightUserInfoModel>()
+	let outPutResultObservable = PublishSubject<KnightDetailInfoModel>()
 
 	let outPutErrorObservable = PublishSubject<AAErrorModel>()
 	
@@ -26,7 +26,7 @@ class GetUserInfoViewModel {
 			.map{KnightInfoAPI.getKnightContent(accountID: $0)}
 			.map{MultiTarget($0)}
 			.flatMapLatest{aoaoAPIProvider.rx.aoaoRequestToObservable($0)}
-			.mapObject(objectType: KnightUserInfoModel.self)
+			.mapObject(objectType: KnightDetailInfoModel.self)
 			.subscribe(onNext: { res in
 				switch res {
 				case .success(let model):
