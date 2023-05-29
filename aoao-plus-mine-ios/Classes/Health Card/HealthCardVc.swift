@@ -60,14 +60,8 @@ class HealthCardVc: AAViewController {
     // 提交事件序列
     let commitObservable = PublishSubject<(healthCertificate: UIImage?, healthCertificateBack: UIImage?, healthCertificateStart: Int, healthCertificateEnd: Int, userid: String)>()
     
-    private let healthCardFrontkeyObservable = PublishSubject<String>()
-    
-    private let healthCardReversekeyObservable = PublishSubject<String>()
-    
     private let healthCardDateObservable = PublishSubject<String>()
-	
-	
-    
+
     let disposeBag = DisposeBag()
 
     private var imageTag = 0
@@ -105,7 +99,7 @@ class HealthCardVc: AAViewController {
                 self.navigationController?.view.showfailMessage(message: "请选择健康证正面照片", handle: nil)
                 return
             }
-            guard let _ = self.BackImage else {
+            guard let _ = self.backImage else {
                 self.navigationController?.view.showfailMessage(message: "请选择健康证反面照片", handle: nil)
                 return
             }
@@ -145,11 +139,11 @@ class HealthCardVc: AAViewController {
                 self.healthEditStatus = .edit
                 self.editStatusObservable.onNext(.edit)
             } else {
-				guard let _ = self.healthCardFrontkey else {
+				guard let _ = self.frontImage else {
 					self.navigationController?.view.showfailMessage(message: "请选择健康证正面照片", handle: nil)
 					return
 				}
-				guard let _ = self.healthCardReversekey else {
+				guard let _ = self.backImage else {
 					self.navigationController?.view.showfailMessage(message: "请选择健康证反面照片", handle: nil)
 					return
 				}
@@ -193,9 +187,8 @@ class HealthCardVc: AAViewController {
 				self.editStatusObservable.onNext(.edit)
 				return
 			}
-            self.navigationController?.view.dissmissLoadingView()
 			// 正面
-			if let urlStr = model.frontUrl, let url = URL(string: urlStr) {
+			if let urlStr = model.healthCardInfo.frontUrl, let url = URL(string: urlStr) {
 				self.positiveImageView.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
 					switch res {
 					case .success(let result):
@@ -262,8 +255,8 @@ class HealthCardVc: AAViewController {
                 self.backImageVIew.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
                 self.commitButton.setTitle("保存", for: .normal)
                 self.healthDateLabel.text = "请选择有效期"
-                self.healthCardFrontkeyObservable.onNext("")
-                self.healthCardReversekeyObservable.onNext("")
+				self.frontImage = nil
+				self.backImage = nil
                 self.healthCardDateObservable.onNext("")
                 self.healthDateLabel.textColor = UIColor(named: "boss_000000-40_FFFFFF-40", in: Bundle.main, compatibleWith: nil)
                 self.healthCardT.isEnabled = true
@@ -272,12 +265,6 @@ class HealthCardVc: AAViewController {
                 self.commitButton.alpha = 1
             }
         }).disposed(by: disposeBag)
-        
-        let isCommitObservable = self.editStatusObservable.filter{$0 != .edit}.flatMapFirst{ _ -> Observable<Bool> in
-            return Observable.combineLatest(self.healthCardFrontkeyObservable, self.healthCardReversekeyObservable, self.healthCardDateObservable){!$0.isEmpty && !$1.isEmpty && !$2.isEmpty}
-        }
-        isCommitObservable.bind(to: self.commitButton.rx.isEnabled).disposed(by: disposeBag)
-        isCommitObservable.map{$0 ? 1 : 0.4}.bind(to: self.commitButton.rx.alpha).disposed(by: disposeBag)
     }
 
 }
