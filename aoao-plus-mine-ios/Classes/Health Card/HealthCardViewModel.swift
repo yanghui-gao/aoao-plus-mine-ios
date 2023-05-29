@@ -40,18 +40,6 @@ class HealthCardViewModel {
         /*
          获取信息
          */
-//
-//        input.getHealthCardObservable.flatMapLatest { userid -> Single<Result<HealthContentModel, AAErrorModel>> in
-//            let request = MultiTarget(HealthAPI.getHealthCard(userID: userid))
-//            return aoaoAPIProvider.rx.aoaoRequest(request).aoaoMapObject(objectType: HealthContentModel.self)
-//        }.subscribe(onNext: { res in
-//            switch res {
-//            case .success(let healthContent):
-//                self.outPutHealthCardResultObservable.onNext(healthContent)
-//            case .failure(let error):
-//                self.outPutErrorObservable.onNext(error)
-//            }
-//        }).disposed(by: disposebag)
         
         /// 提交序列
         input.commitObservable.flatMapLatest{ para -> Observable<Result<[String], AAErrorModel>> in
@@ -94,6 +82,5 @@ class HealthCardViewModel {
 extension HealthCardViewModel {
     struct Input {
         let commitObservable: Observable<Para>
-        let getHealthCardObservable: Observable<String>
     }
 }

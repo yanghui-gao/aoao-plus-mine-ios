@@ -33,13 +33,9 @@ class HealthCardVc: AAViewController {
     // 反面
     @IBOutlet weak var backImageVIew: UIImageView!
     // 健康证 有效期 开始时间
-    public var healthCardStartDate: Int?
+	var healthCardStartDate: Int?
     // 健康证 有效期 结束时间
-    public var healthCardEndDate: Int?
-    // 健康证 正面照片 key
-    public var healthCardFrontkey: String?
-    // 健康证 反面照片 key
-    public var healthCardReversekey: String?
+	var healthCardEndDate: Int?
 
     @IBOutlet var selectDateTap: UITapGestureRecognizer!
 
@@ -50,17 +46,16 @@ class HealthCardVc: AAViewController {
 	// 编辑状态
 	var editStatus: HealthEditStatus?
 	
-    let getHealthContentObservable = PublishSubject<String>()
     
 	private let editStatusObservable = PublishSubject<HealthEditStatus>()
     /// 健康证信息(从前一个页面传递)
-	var healthCardInfo:KnightDetailInfoHealthCardInfo?
+	var userInfoModel: KnightDetailInfoModel?
     /// 设置健康证信息
-    private let setHealthObservable = PublishSubject<KnightDetailInfoHealthCardInfo>()
+    private let setHealthObservable = PublishSubject<KnightDetailInfoModel?>()
     /// 正面
-    private var positiveImage: UIImage?
+    private var frontImage: UIImage?
     /// 反面
-    private var healthCardReverseImage: UIImage?
+    private var backImage: UIImage?
     
     // 提交事件序列
     let commitObservable = PublishSubject<(healthCertificate: UIImage?, healthCertificateBack: UIImage?, healthCertificateStart: Int, healthCertificateEnd: Int, userid: String)>()
@@ -71,7 +66,7 @@ class HealthCardVc: AAViewController {
     
     private let healthCardDateObservable = PublishSubject<String>()
 	
-	var userInfoModel: UserInfoModel?
+	
     
     let disposeBag = DisposeBag()
 
@@ -81,11 +76,7 @@ class HealthCardVc: AAViewController {
         super.viewDidLoad()
         setUI()
         bindViewModel()
-		if let accountID = userInfoModel?.id, let healthIsOk = userInfoModel?.healthIsOk, healthIsOk {
-            self.getHealthContentObservable.onNext(accountID)
-        } else {
-            self.editStatusObservable.onNext(.edit)
-        }
+		setHealthObservable.onNext(self.userInfoModel)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -110,11 +101,11 @@ class HealthCardVc: AAViewController {
 		}.disposed(by: disposeBag)
 		// 选择时间 点击事件
 		self.selectDateTap.rx.event.subscribe(onNext: { [unowned self] _ in
-            guard let _ = self.healthCardFrontkey else {
+            guard let _ = self.frontImage else {
                 self.navigationController?.view.showfailMessage(message: "请选择健康证正面照片", handle: nil)
                 return
             }
-            guard let _ = self.healthCardReversekey else {
+            guard let _ = self.BackImage else {
                 self.navigationController?.view.showfailMessage(message: "请选择健康证反面照片", handle: nil)
                 return
             }
@@ -135,12 +126,10 @@ class HealthCardVc: AAViewController {
 		// 选择图片就上传
         normalCameraModule.manager.imageObservable.subscribe(onNext: { image in
             if self.imageTag == 0 {
-                self.healthCardFrontkeyObservable.onNext("healthCardFrontkeyObservable")
-                self.healthCardFrontkey = "healthCardFrontkeyObservable"
+				self.frontImage = image
                 self.positiveImageView.image = image
             } else {
-                self.healthCardReversekey = "healthCardReversekeyObservable"
-                self.healthCardReversekeyObservable.onNext("healthCardReversekeyObservable")
+				self.backImage = image
                 self.backImageVIew.image = image
             }
         }).disposed(by: disposeBag)
@@ -182,14 +171,9 @@ class HealthCardVc: AAViewController {
             }
         }).disposed(by: disposeBag)
         
-		let input = HealthCardViewModel.Input(commitObservable: self.commitObservable,
-                                              getHealthCardObservable: self.getHealthContentObservable)
+		let input = HealthCardViewModel.Input(commitObservable: self.commitObservable)
 
 		healthCardViewModel = HealthCardViewModel(input: input)
-        
-        self.getHealthContentObservable.subscribe(onNext: { _ in
-            self.navigationController?.view.showLoadingMessage(message: "加载中...")
-        }).disposed(by: disposeBag)
         
 		healthCardViewModel?.outPutResultObservable.subscribe(onNext: { [unowned self] res in
             self.navigationController?.view.dissmissLoadingView()
@@ -204,52 +188,52 @@ class HealthCardVc: AAViewController {
         }).disposed(by: disposeBag)
 
         // 获取健康证信息成功
-        self.setHealthObservable.subscribe(onNext: { [unowned self] model in
+        self.setHealthObservable.subscribe(onNext: { [unowned self] userModel in
+			guard let model = userModel else {
+				self.editStatusObservable.onNext(.edit)
+				return
+			}
             self.navigationController?.view.dissmissLoadingView()
-			if model.healthCardState == .complete {
-                // 正面
-				if let urlStr = model.frontUrl, let url = URL(string: urlStr) {
-                    self.positiveImageView.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
-                        switch res {
-                        case .success(let result):
-							// 图片异步处理所以在展示的时候需要判断当前界面状态
-                            if self.healthEditStatus == .edit {
-                                self.positiveImageView.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
-                            } else {
-                                self.positiveImageView.image = result.image
-                            }
-                        case .failure(let error):
-                            print(error)
-                        }
-                        
-                    })
-                }
-                // 背面
-                if let urlStr = model.backUrl, let url = URL(string: urlStr) {
-                    self.backImageVIew.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
-                        switch res {
-                        case .success(let result):
-							// 图片异步处理所以在展示的时候需要判断当前界面状态
-                            if self.healthEditStatus == .edit {
-                                self.backImageVIew.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
-                            } else {
-                                self.backImageVIew.image = result.image
-                            }
-                        case .failure(let error):
-                            print(error)
-                        }
-                        
-                    })
-                }
-                // 开始 结束时间
-                if let strat = model.fromDateStr, let end = model.endDateStr {
-                    healthDateLabel.text = "\(strat)-\(end)"
-                    healthDateLabel.textColor = UIColor(named: "boss_000000-90_FFFFFF-90", in: Bundle.main, compatibleWith: nil)
-                }
-                self.editStatusObservable.onNext(.done)
-            } else {
-                self.editStatusObservable.onNext(.edit)
-            }
+			// 正面
+			if let urlStr = model.frontUrl, let url = URL(string: urlStr) {
+				self.positiveImageView.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
+					switch res {
+					case .success(let result):
+						// 图片异步处理所以在展示的时候需要判断当前界面状态
+						if self.healthEditStatus == .edit {
+							self.positiveImageView.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
+						} else {
+							self.positiveImageView.image = result.image
+						}
+					case .failure(let error):
+						print(error)
+					}
+					
+				})
+			}
+			// 背面
+			if let urlStr = model.healthCardInfo.backUrl, let url = URL(string: urlStr) {
+				self.backImageVIew.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
+					switch res {
+					case .success(let result):
+						// 图片异步处理所以在展示的时候需要判断当前界面状态
+						if self.healthEditStatus == .edit {
+							self.backImageVIew.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
+						} else {
+							self.backImageVIew.image = result.image
+						}
+					case .failure(let error):
+						print(error)
+					}
+					
+				})
+			}
+			// 开始 结束时间
+			if let strat = model.healthCardInfo.fromDateStr, let end = model.healthCardInfo.endDateStr {
+				healthDateLabel.text = "\(strat)-\(end)"
+				healthDateLabel.textColor = UIColor(named: "boss_000000-90_FFFFFF-90", in: Bundle.main, compatibleWith: nil)
+			}
+			self.editStatusObservable.onNext(.done)
         }).disposed(by: disposeBag)
 
         self.editStatusObservable.subscribe(onNext: { state in
