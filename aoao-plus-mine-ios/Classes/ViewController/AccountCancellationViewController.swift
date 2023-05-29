@@ -72,8 +72,8 @@ class AccountCancellationViewController: AAViewController {
 		self.title = "注销帐号"
 		self.cancellationButton.layer.cornerRadius = 4
 		if let usermodel = UserModelManager.manager.userInfoModel {
-			cancellationTitleLabel.text = "申请注销\(usermodel.accountInfo.mobileStr)绑定的帐号"
-			cancellingLabel.text = "您已申请注销\(usermodel.accountInfo.mobileStr)绑定的帐号\n平台将在7个工作日内处理完毕"
+			cancellationTitleLabel.text = "申请注销\(usermodel.phoneStr)绑定的帐号"
+			cancellingLabel.text = "您已申请注销\(usermodel.phoneStr)绑定的帐号\n平台将在7个工作日内处理完毕"
 		}
 	}
 

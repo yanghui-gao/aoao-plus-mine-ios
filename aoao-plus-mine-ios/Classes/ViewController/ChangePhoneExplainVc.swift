@@ -28,7 +28,7 @@ enum ChangePhoneType {
 	func setContentText() -> String {
 		switch self {
 		case .changePhone:
-			guard let phone = UserModelManager.manager.userInfoModel?.accountInfo.mobile else {
+			guard let phone = UserModelManager.manager.userInfoModel?.phone else {
 				return ""
 			}
 			return "您当前的手机号为 \(phone) \n如果您的手机号已不用，请及时更换。\n\n变更后的手机号将与您的身份证号绑定，该绑定关系将同步更新到您在APP内部所使用的应用以及功能中。\n请点击以下按钮进行变更手机号操作。"
@@ -66,7 +66,7 @@ class ChangePhoneExplainVc: AAViewController {
 	}
 	/// 绑定
 	func bindViewModel() {
-		guard let userInfo = UserModelManager.manager.userInfoModel, let accountInfo = userInfo.accountInfo, let phone = accountInfo.mobile else {
+		guard let userInfo = UserModelManager.manager.userInfoModel, let phone = userInfo.phone else {
 			return
 		}
 		let tap = self.changePhoneButton.rx.tap

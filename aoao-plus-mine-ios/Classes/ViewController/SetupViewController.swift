@@ -125,8 +125,7 @@ class SetupViewController: AAViewController {
 		/// 退出登录请求回调
 		self.loginOutViewModel?.outPutResultObservable.subscribe(onNext: { _ in
 			/// 移除用户信息
-			UserModelManager.manager.deleteConfigModel()
-			UserModelManager.manager.deleteUserModel()
+			UserModelManager.manager.removeUserInfo()
 			/// 移除开关缓存
 			UserDefaults.standard.removeObject(forKey: "voice")
 			UserDefaults.standard.removeObject(forKey: "vibration")

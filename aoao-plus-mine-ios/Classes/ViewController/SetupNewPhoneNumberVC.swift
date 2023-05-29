@@ -55,7 +55,7 @@ class SetupNewPhoneNumberVC: AAViewController {
 		/// 下一步点击事件
 		nextSetupButton.rx.tap.subscribe(onNext: { _ in
 			// 与本地手机号判断是否一致
-			guard let phone = UserModelManager.manager.userInfoModel?.accountInfo.mobile else {
+			guard let phone = UserModelManager.manager.userInfoModel?.phone else {
 				return
 			}
 			/// 输入手机号
