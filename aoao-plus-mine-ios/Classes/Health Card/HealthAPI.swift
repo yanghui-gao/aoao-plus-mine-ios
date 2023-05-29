@@ -16,8 +16,7 @@ enum HealthAPI {
     case saveHealthCard(healthCertificate: String,
 						healthCertificateBack: String,
 						healthCertificateStart: Int,
-						healthCertificateEnd: Int,
-						userid: String)
+						healthCertificateEnd: Int)
     /// 获取健康证信息
     case getHealthCard(userID: String)
 }
@@ -37,13 +36,11 @@ extension HealthAPI: TargetType, AuthenticationProtocol {
     public var task: Task {
         var params: [String: Any] = [:]
         switch self {
-        case .saveHealthCard(let healthCertificate, let healthCertificateBack, let healthCertificateStart, let healthCertificateEnd, let userid):
+        case .saveHealthCard(let healthCertificate, let healthCertificateBack, let healthCertificateStart, let healthCertificateEnd):
             params["front_image_key"] = healthCertificate
             params["back_image_key"] = healthCertificateBack
             params["from_date"] = healthCertificateStart
             params["end_date"] = healthCertificateEnd
-            params["courier_id"] = userid
-            params["storage_type"] = SavePhotoType.SavePhotoTypeQiNiu.rawValue
         case .getHealthCard(let userID):
             params["courier_id"] = userID
         }
@@ -55,7 +52,7 @@ extension HealthAPI: TargetType, AuthenticationProtocol {
         case .getHealthCard(_):
             return ["X-CMD": "dms.certificate.health_card.get"]
         case .saveHealthCard:
-            return ["X-CMD": "dms.certificate.health_card.upsert"]
+            return ["X-CMD": "aoao.courier.courier.update_health_card"]
         }
     }
 	var authenticationType: AuthenticationType? {
