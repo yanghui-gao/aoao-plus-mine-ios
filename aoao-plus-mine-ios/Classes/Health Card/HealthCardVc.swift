@@ -13,11 +13,13 @@ import aoao_plus_net_ios
 import Moya
 import SwiftDate
 
+
+enum HealthEditStatus {
+	case edit			// 编辑状态
+	case done			// 完成状态
+}
+
 class HealthCardVc: AAViewController {
-	enum HealthEditStatus {
-		case edit			// 编辑状态
-		case done			// 完成状态
-	}
     // 正面
     @IBOutlet weak var healthCardT: UIButton!
     // 反面
@@ -51,9 +53,10 @@ class HealthCardVc: AAViewController {
     let getHealthContentObservable = PublishSubject<String>()
     
 	private let editStatusObservable = PublishSubject<HealthEditStatus>()
-    
+    /// 健康证信息(从前一个页面传递)
+	var healthCardInfo:KnightDetailInfoHealthCardInfo?
     /// 设置健康证信息
-    private let setHealthObservable = PublishSubject<HealthContentModel>()
+    private let setHealthObservable = PublishSubject<KnightDetailInfoHealthCardInfo>()
     /// 正面
     private var positiveImage: UIImage?
     /// 反面
@@ -179,7 +182,7 @@ class HealthCardVc: AAViewController {
             }
         }).disposed(by: disposeBag)
         
-        let input = HealthCardViewModel.Input(commitObservable: self.commitObservable,
+		let input = HealthCardViewModel.Input(commitObservable: self.commitObservable,
                                               getHealthCardObservable: self.getHealthContentObservable)
 
 		healthCardViewModel = HealthCardViewModel(input: input)
@@ -199,22 +202,17 @@ class HealthCardVc: AAViewController {
             self.navigationController?.view.dissmissLoadingView()
             self.navigationController?.view.showfailMessage(message: error.zhMessage, handle: nil)
         }).disposed(by: disposeBag)
-        
-        /// 健康证信息
-        healthCardViewModel?.outPutHealthCardResultObservable.subscribe(onNext: { res in
-            self.setHealthObservable.onNext(res)
-        }).disposed(by: disposeBag)
-        
+
         // 获取健康证信息成功
         self.setHealthObservable.subscribe(onNext: { [unowned self] model in
             self.navigationController?.view.dissmissLoadingView()
-            if model.healthEditStatus == .done {
-                self.healthEditStatus = .done
+			if model.healthCardState == .complete {
                 // 正面
-                if let urlStr = model.frontAssetUrl, let url = URL(string: urlStr) {
+				if let urlStr = model.frontUrl, let url = URL(string: urlStr) {
                     self.positiveImageView.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
                         switch res {
                         case .success(let result):
+							// 图片异步处理所以在展示的时候需要判断当前界面状态
                             if self.healthEditStatus == .edit {
                                 self.positiveImageView.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
                             } else {
@@ -227,10 +225,11 @@ class HealthCardVc: AAViewController {
                     })
                 }
                 // 背面
-                if let urlStr = model.backAssetUrl, let url = URL(string: urlStr) {
+                if let urlStr = model.backUrl, let url = URL(string: urlStr) {
                     self.backImageVIew.kf.setImage(with: url, placeholder: UIImage(named: "placehold_Image", in: AAMineModule.share.bundle, compatibleWith: nil), completionHandler: { res in
                         switch res {
                         case .success(let result):
+							// 图片异步处理所以在展示的时候需要判断当前界面状态
                             if self.healthEditStatus == .edit {
                                 self.backImageVIew.image = UIImage(named: "uploadImage", in: AAMineModule.share.bundle, compatibleWith: nil)
                             } else {
@@ -249,12 +248,12 @@ class HealthCardVc: AAViewController {
                 }
                 self.editStatusObservable.onNext(.done)
             } else {
-                self.healthEditStatus = .edit
                 self.editStatusObservable.onNext(.edit)
             }
         }).disposed(by: disposeBag)
 
         self.editStatusObservable.subscribe(onNext: { state in
+			self.healthEditStatus = state
             switch state {
             case .done:
 				if self.userInfoModel?.id == UserModelManager.manager.userInfoModel?.id {
