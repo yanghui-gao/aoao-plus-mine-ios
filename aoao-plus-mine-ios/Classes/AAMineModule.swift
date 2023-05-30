@@ -18,6 +18,10 @@ public class AAMineModule {
 		return UIStoryboard(name: storyboardName, bundle: AAMineModule.share.bundle)
 	}
 	
+	public var contractStoryboard: UIStoryboard{
+		return UIStoryboard(name: "Contract", bundle: AAMineModule.share.bundle)
+	}
+	
 	var bundle:Bundle?{
 		get{
 			guard let bundleURL = Bundle(for: AAMineModule.self).url(forResource: modulerName, withExtension: "bundle") else {
