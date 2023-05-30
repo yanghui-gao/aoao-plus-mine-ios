@@ -12,6 +12,7 @@ import SwiftyJSON
 public struct MineRouter {
 	
 	public static func initialize() {
+		ContractRouter.initialize()
 		/// 我的页面
 		navigator.register("mine".routerUrl) { url, values, context in
 			return AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "MineViewController")
