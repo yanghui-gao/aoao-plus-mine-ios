@@ -56,7 +56,7 @@ class SignVc: AAViewController {
 				return
 			}
 			// 签名
-			self.signObservable.onNext((_id: "id", signBase64: base64))
+			self.signObservable.onNext((_id: id, signBase64: base64))
         }
 
     }
