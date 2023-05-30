@@ -9,6 +9,11 @@ import UIKit
 import aoao_plus_common_ios
 import RxSwift
 
+enum KnightInfoPushType: Int {
+	case mine = 1				// 我的
+	case knightManager = 2		// 骑手管理
+}
+
 /// 骑士信息
 class KnightViewController: AAViewController {
 
@@ -16,26 +21,24 @@ class KnightViewController: AAViewController {
 	@IBOutlet weak var idCardStatusLabel: UILabel!
 	/// 健康证信息状态
 	@IBOutlet weak var healthCardLabel: UILabel!
-	/// 其他信息状态
+	/// 合同信息状态
 	@IBOutlet weak var otherContentLabel: UILabel!
-	
 	/// 身份证信息点击
 	@IBOutlet var idCardStatusTap: UITapGestureRecognizer!
 	/// 健康证点击
 	@IBOutlet var healthCardTap: UITapGestureRecognizer!
-	/// 其他信息点击
+	/// 合同信息点击
 	@IBOutlet var otherTap: UITapGestureRecognizer!
 	/// 业绩查看
 	@IBOutlet var achievementViewTap: UITapGestureRecognizer!
-	
 	/// 业绩查看
 	@IBOutlet weak var achievementView: UIView!
 	
 	let getUserObservable = PublishSubject<String>()
 	
 	var getUserInfoViewModel:GetUserInfoViewModel?
-	
-	var userInfoModel: UserInfoModel?
+	// 骑手详情信息
+	var userInfoModel: KnightDetailInfoModel?
 	/// 身份证是否完善
 	var idCardisComplete: Bool? {
 		didSet{
@@ -60,17 +63,17 @@ class KnightViewController: AAViewController {
 			healthCardLabel.textColor = healthisComplete ? complete : color_E84335
 		}
 	}
-	/// 附加信息是否完善
-	var otherisComplete: Bool? {
+	/// 合同信息是否完善
+	var pactisComplete: Bool? {
 		didSet{
-			guard let otherisComplete = self.otherisComplete else {
+			guard let pactisComplete = self.pactisComplete else {
 				return
 			}
-			otherContentLabel.text = userInfoModel?.vaccinationisStr
-            
+			otherContentLabel.text = userInfoModel?.userSignState.toStr()
+
 			let color_E84335 = UIColor(named: "Color_E84335-80", in: AAMineModule.share.bundle, compatibleWith: nil)
 			let complete = UIColor(named: "boss_000000-60_FFFFFF-60", in: AAMineModule.share.bundle, compatibleWith: nil)
-			otherContentLabel.textColor = otherisComplete ? complete : color_E84335
+			otherContentLabel.textColor = pactisComplete ? complete : color_E84335
 		}
 	}
 	// 骑手ID
@@ -94,8 +97,6 @@ class KnightViewController: AAViewController {
 		if let accountID = self.accountID {
 			self.getUserObservable.onNext(accountID)
 		}
-		// 如果存在 shopID 代表 是从骑手管理列表跳转
-		
     }
 	func setUI() {
 		self.title = "骑手信息"
@@ -134,22 +135,28 @@ class KnightViewController: AAViewController {
 					return
 				}
 			}
-			"health".openURL(para: ["userInfoModel": self.userInfoModel])
+			"health".openURL(para: ["healthCardInfo": self.userInfoModel])
 		}).disposed(by: disposeBag)
 		
 		/// 其他信息点击
-		otherTap.rx.event.subscribe(onNext: { _ in
-			/// 其他信息 未完善 不可点击
-			if self.isShowWorkDetail {
-				guard let model = self.userInfoModel, let vaccinationId = model.vaccinationId else {
-					return
-				}
-				// vaccinationId 不存在代表 未完善
-				if vaccinationId.isEmpty{
-					return
-				}
+		otherTap.rx.event.subscribe(onNext: { [unowned self] _ in
+			/// 合同信息已完善
+			guard let pactisComplete = self.pactisComplete else {
+				return
 			}
-			"vaccine".openURL(para: ["userInfoModel": self.userInfoModel])
+			if pactisComplete {
+				guard let url = self.userInfoModel?.pactInfo.pactUrl else {
+					self.view.aoaoMakeToast("获取合同信息失败, 请稍后再试")
+					return
+				}
+				// 查看合同
+				"contract".openURL(para: ["url": url])
+			} else {
+				/// 合同信息未完善
+				/// 签约
+				"sign".openURL()
+			}
+			
 		}).disposed(by: disposeBag)
 		
 		// 业绩查看点击
@@ -163,27 +170,23 @@ class KnightViewController: AAViewController {
 			"statistics".openURL(para: ["shopID": shopID, "userInfoID": model.id])
 		}).disposed(by: disposeBag)
 		
-		let input = GetUserInfoViewModel.Input.init(getUserInfoContent: self.getUserObservable)
+		let input = GetUserInfoViewModel.Input(getUserInfoContent: self.getUserObservable)
+		
 		self.getUserInfoViewModel = GetUserInfoViewModel(input: input)
 		
-		self.getUserInfoViewModel?.outPutResultObservable.subscribe(onNext: { model in
-			/// 如果操作用户对象为当前用户时 更新本地用户对象
-			self.userInfoModel = model
-//			if model.id == UserModelManager.manager.userInfoModel?.id {
-//				UserModelManager.manager.setUserModel(userModel: model)
-//			}
-			
-			self.otherisComplete = model.vaccinationIsOk && model.isOrderTaker
-			self.healthisComplete = model.healthIsOk
-			if let idCardInfo = model.idCardInfo {
-				self.idCardisComplete = idCardInfo.idCardIsOk
-			} else {
-				self.idCardisComplete = false
-			}
-		}).disposed(by: disposeBag)
+		self.getUserInfoViewModel?
+			.outPutResultObservable
+			.subscribe(onNext: { model in
+				self.userInfoModel = model
+				self.pactisComplete = model.userSignState == .signed
+				self.healthisComplete = model.userHealthCardState == .complete
+				self.idCardisComplete = model.userIdCardState == .complete
+			}).disposed(by: disposeBag)
 		
 		/// 错误信息
-		self.getUserInfoViewModel?.outPutErrorObservable.subscribe(onNext: { error in
+		self.getUserInfoViewModel?
+			.outPutErrorObservable
+			.subscribe(onNext: { error in
 			self.view.makeToast(error.zhMessage)
 		}).disposed(by: disposeBag)
 		
