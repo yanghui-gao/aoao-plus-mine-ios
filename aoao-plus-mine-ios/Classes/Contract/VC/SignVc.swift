@@ -56,7 +56,7 @@ class SignVc: AAViewController {
 				return
 			}
 			// 签名
-			self.signObservable.onNext((_id: id, signBase64: base64))
+			self.signObservable.onNext((_id: "id", signBase64: base64))
         }
 
     }
@@ -117,27 +117,28 @@ class SignVc: AAViewController {
 			// 签约按钮不可点击
             self.signButton.alpha = 0.4
             self.signButton.isEnabled = false
+			
+			
             }).disposed(by: disposebag)
         
         // 签名回调
-        self.viewModel?.signObservable.subscribe(onNext: { [unowned self] json in
+        self.viewModel?.signObservable.subscribe(onNext: { json in
             self.signView?.isUserInteractionEnabled = true
+			self.signView?.dissmissLoadingView()
 			self.signView?.remove()
-            self.view.dissmissLoadingView()
+			
 			self.view.showSuccessMessage(message: "签约成功", handle: {
 				guard let viewControllers = self.navigationController?.viewControllers else {
 					self.navigationController?.popViewController(animated: true)
 					return
 				}
 				for vc in viewControllers {
-					if (vc.theClassName == "KnightViewController") {
+					if (vc.theClassName.contains("KnightViewController")) {
 						self.navigationController?.popToViewController(vc, animated: true)
 						return
 					}
 				}
 			})
-            
-           
         }).disposed(by: disposebag)
     }
 
