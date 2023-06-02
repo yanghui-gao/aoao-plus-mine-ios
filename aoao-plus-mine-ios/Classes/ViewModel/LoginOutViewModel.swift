@@ -23,7 +23,7 @@ class LoginOutViewModel {
 	init(input: Input) {
 		
 		input.loginOutObservable.flatMapLatest{ accessToken -> Single<Result<JSON, AAErrorModel>> in
-			let request = MultiTarget(UpLoadVaccineContentAPI.loginOut(accessToken: accessToken))
+			let request = MultiTarget(UpLoadVaccineContentAPI.loginOut)
 			return aoaoAPIProvider.rx.aoaoRequest(request).mapSwiftJSON()
 			
 		}.subscribe(onNext: { res in

@@ -20,6 +20,9 @@ class SetupViewController: AAViewController {
 	/// 检查更新
 	@IBOutlet weak var checkupdateHeight: NSLayoutConstraint!
 	
+	@IBOutlet var setpasswordTap: UITapGestureRecognizer!
+	@IBOutlet weak var isSetPassword: UILabel!
+	
 	@IBOutlet var checkUpdateTap: UITapGestureRecognizer!
 	/// 关于
 	@IBOutlet var aboutTap: UITapGestureRecognizer!
@@ -57,6 +60,11 @@ class SetupViewController: AAViewController {
 				self.updateView.isHidden = true
 				self.checkupdateHeight.constant = 0
 			}
+		}
+		if let model =  UserModelManager.manager.userInfoModel, model.isSetPassword {
+			self.isSetPassword.text = "已设置"
+		} else {
+			self.isSetPassword.text = "未设置"
 		}
 	}
 	
@@ -129,9 +137,6 @@ class SetupViewController: AAViewController {
 			/// 移除开关缓存
 			UserDefaults.standard.removeObject(forKey: "voice")
 			UserDefaults.standard.removeObject(forKey: "vibration")
-
-			/// 断开MQTT
-			AAMQTTManager.manager.disConnect()
 			/// 跳转首页
 			"login".openURL()
 		}).disposed(by: disposeBag)
@@ -144,6 +149,10 @@ class SetupViewController: AAViewController {
 		/// 关于点击事件
 		self.aboutTap.rx.event.subscribe(onNext: { _ in
 			"about".openURL()
+		}).disposed(by: disposeBag)
+		
+		self.setpasswordTap.rx.event.subscribe(onNext: { _ in
+			"setpassword".openURL()
 		}).disposed(by: disposeBag)
 		
 		/// 修改手机号

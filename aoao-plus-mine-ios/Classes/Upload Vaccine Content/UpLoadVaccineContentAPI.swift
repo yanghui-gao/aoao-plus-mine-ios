@@ -37,7 +37,7 @@ public enum UpLoadVaccineContentAPI {
 	case switchWorkState(id: String, workState: Int)
 	
 	/// 退出登录
-	case loginOut(accessToken: String)
+	case loginOut
 	
 	/// 获取骑手统计信息(折线图)
     case getStatisticsList(courierid: String, storeID: String, fromDate: String, toDate: String)
@@ -52,6 +52,9 @@ public enum UpLoadVaccineContentAPI {
 	
 	/// 获取店铺列表
 	case getShopList(accountID: String)
+	
+	/// 设置新密码
+	case setNewPassWord(oldPassword:String?, password: String)
 }
 extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 	public var baseURL: URL {
@@ -109,8 +112,6 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			params["testing_asset_key"] = testingAssetKey
 			params["_id"] = id
 			params["vaccination_asset_key"] = vaccinationAssetKey
-		case .loginOut(let accessToken):
-			params["access_token"] = accessToken
 		case .getStatisticsList(let courierid, let storeID, let from_date, let end_date):
 			params["courier_id"] = courierid
 			params["store_id"] = storeID
@@ -134,6 +135,11 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			if let eventStr = event{
 				params["event"] = eventStr
 			}
+		case .setNewPassWord(let oldPassword, let password):
+			params["password"] = password
+			params["raw_password"] = oldPassword
+		default:
+			break
 		}
 		return .requestParameters(parameters: params, encoding: JSONEncoding.default)
 	}
@@ -142,6 +148,8 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 		switch self {
 		case .getVaccineContent(_):
 			return ["X-CMD":"dms.certificate.vaccination.get"]
+		case .setNewPassWord(_,_):
+			return ["X-CMD":"aoao.auth.token.reset_password"]
 		case .getShopList(_):
 			return ["X-CMD":"dms.courier.courier_work_store.find"]
 		case .upLoadVaccineContent(_, _, _, _, _, _):
@@ -152,8 +160,8 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
             return ["X-CMD":"dms.courier.courier.get"]
 		case .switchWorkState(_, _):
 			return ["X-CMD":"dms.courier.courier.switch_work_state"]
-		case .loginOut(_):
-			return ["X-CMD":"dms.auth.auth.logout"]
+		case .loginOut:
+			return ["X-CMD":"aoao.auth.token.logout"]
 		case .getStatisticsList(_, _, _, _):
 			return ["X-CMD":"dms.statistic.order.find_range_daily_courier_order"]
 		case .getStatistics(_, _, _):

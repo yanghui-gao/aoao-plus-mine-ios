@@ -17,6 +17,10 @@ public struct MineRouter {
 		navigator.register("mine".routerUrl) { url, values, context in
 			return AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "MineViewController")
 		}
+		navigator.register("setpassword".routerUrl) { url, values, context in
+			return AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "SetPassWordVc")
+		}
+		
 		/// 骑手信息
 		navigator.register("knight".routerUrl) { url, values, context in
 			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "KnightViewController") as? KnightViewController
