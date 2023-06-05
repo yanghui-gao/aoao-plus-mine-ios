@@ -13,6 +13,7 @@ public struct MineRouter {
 	
 	public static func initialize() {
 		ContractRouter.initialize()
+		ChangePhoneRouter.initialize()
 		/// 我的页面
 		navigator.register("mine".routerUrl) { url, values, context in
 			return AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "MineViewController")
@@ -94,17 +95,8 @@ public struct MineRouter {
 			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "AboutVc")
 			return vc
 		}
-		/// 修改手机号
-		navigator.register("changePhone".routerUrl) { url, values, context in
-			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "ChangePhoneExplainVc") as! ChangePhoneExplainVc
-			vc.changePhoneType = .changePhone
-			return vc
-		}
-		/// 修改手机号 -> 输入新手机号页面
-		navigator.register("setupNewPhoneNumber".routerUrl) { url, values, context in
-			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "SetupNewPhoneNumberVC") as! SetupNewPhoneNumberVC
-			return vc
-		}
+		
+		
 		/// 我的 -> 骑手管理
 		navigator.register("knightManager".routerUrl) { url, values, context in
 			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "KnightManagerViewController") as! KnightManagerViewController
