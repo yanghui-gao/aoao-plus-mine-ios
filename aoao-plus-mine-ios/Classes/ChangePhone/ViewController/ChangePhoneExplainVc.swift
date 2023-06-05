@@ -69,19 +69,19 @@ class ChangePhoneExplainVc: AAViewController {
 		guard let userInfo = UserModelManager.manager.userInfoModel, let phone = userInfo.phone else {
 			return
 		}
-		let tap = self.changePhoneButton.rx.tap
-		
-		let input = ChangePhoneViewModel.Input.init(getOldPhoneCode: tap.map{(phone: phone, if_voice: false, event: "vendor-reset-password")}, checkPhoneObservable: nil, getNewPhoneCode: nil)
+		let getCodeObservable = self.changePhoneButton.rx.tap.map{(phone: phone, event: InputCodeType.changePhone)}
 		
 		//添加点击加载框
-		tap.subscribe(onNext: { _ in
+		getCodeObservable.subscribe(onNext: { _ in
 			self.navigationController?.view.showLoadingMessage()
 		}).disposed(by: disposebag)
 		
 		
+		let input = ChangePhoneViewModel.Input.init(getCodeObservable: getCodeObservable)
+		
 		self.changePhoneViewModel = ChangePhoneViewModel.init(input: input)
 		// 获取验证码回调
-		self.changePhoneViewModel?.outPutGetOldPhoneCodeObservable.subscribe(onNext: { json in
+		self.changePhoneViewModel?.outPutResultObservable.subscribe(onNext: { json in
 			self.navigationController?.view.dissmissLoadingView()
 			guard let _ = json["_id"].string else{
 				self.view.makeToast("获取验证码失败, 请稍后再试")
