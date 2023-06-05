@@ -13,6 +13,15 @@ import RxSwift
 import aoao_plus_common_ios
 
 public enum UpLoadVaccineContentAPI {
+	// MARK: 3.0
+	/// 获取旧手机号验证码
+	case getCode(phone:String, event:InputCodeType)
+	
+	/// 退出登录
+	case loginOut
+	// MARK: 2.0
+	
+	
 	/// 保存附件信息
 	case upLoadVaccineContent(courierId: String,
 							  vaccinationDate: String?,
@@ -36,16 +45,14 @@ public enum UpLoadVaccineContentAPI {
 	/// 更新骑手在职状态 - 关闭接单状态
 	case switchWorkState(id: String, workState: Int)
 	
-	/// 退出登录
-	case loginOut
+	
 	
 	/// 获取骑手统计信息(折线图)
     case getStatisticsList(courierid: String, storeID: String, fromDate: String, toDate: String)
 	/// 获取骑手统计信息
     case getStatistics(courierid: String, storeID: String, date: String)
 	
-	/// 获取旧手机号验证码
-	case getCode(phone:String, if_voice:Bool, event:String?)
+	
 	
 	/// 校验手机号是否合法
 	case checkNewPhone(phone: String, idCardNum: String)
@@ -129,12 +136,9 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 		case .checkNewPhone(let phone, let idCardNum):
 			params["mobile"] = phone
 			params["id_card_num"] = idCardNum
-		case .getCode(let phone, let isvoice, let event):
-			params["mobile"] = phone
-			params["sms_type"] = isvoice ? SmsType.voice.rawValue : SmsType.sms.rawValue
-			if let eventStr = event{
-				params["event"] = eventStr
-			}
+		case .getCode(let phone, let event):
+			params["phone"] = phone
+			params["event"] = event.eventString()
 		case .setNewPassWord(let oldPassword, let password):
 			params["password"] = password
 			params["raw_password"] = oldPassword
@@ -146,6 +150,12 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 
 	public var headers: [String: String]? {
 		switch self {
+			// MARK: 3.0
+		case .loginOut:
+			return ["X-CMD":"aoao.auth.token.logout"]
+		case .getCode(_, _):
+			return ["X-CMD":"aoao.auth.auth.send_verify_code"]
+			// MARK: 2.0
 		case .getVaccineContent(_):
 			return ["X-CMD":"dms.certificate.vaccination.get"]
 		case .setNewPassWord(_,_):
@@ -156,25 +166,22 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			return ["X-CMD":"dms.certificate.vaccination.submit"]
 		case .upDateVaccineContent(_, _, _, _, _, _):
 			return ["X-CMD":"dms.certificate.vaccination.update"]
-        case .getKnightContent(_):
-            return ["X-CMD":"dms.courier.courier.get"]
+		case .getKnightContent(_):
+			return ["X-CMD":"dms.courier.courier.get"]
 		case .switchWorkState(_, _):
 			return ["X-CMD":"dms.courier.courier.switch_work_state"]
-		case .loginOut:
-			return ["X-CMD":"aoao.auth.token.logout"]
+			
 		case .getStatisticsList(_, _, _, _):
 			return ["X-CMD":"dms.statistic.order.find_range_daily_courier_order"]
 		case .getStatistics(_, _, _):
 			return ["X-CMD":"dms.statistic.order.get_daily_courier_order"]
 		case .checkNewPhone(_, _):
 			return ["X-CMD":"dms.courier.courier.check"]
-		case .getCode(_, _, _):
-			return ["X-CMD":"dms.auth.auth.send_verify_code"]
 		}
 	}
 	public var authenticationType: AuthenticationType? {
 		switch self {
-		case .getCode(_,_,_):
+		case .getCode(_,_):
 			return .xAuth
 		default:
 			return .xToken
