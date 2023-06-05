@@ -71,7 +71,7 @@ class ChangePhoneExplainVc: AAViewController {
 		}
 		let tap = self.changePhoneButton.rx.tap
 		
-		let input = ChangePhoneViewModel.Input.init(getOldPhoneCode: tap.map{(phone: phone, if_voice: false, event: "change-phone")}, checkPhoneObservable: nil, getNewPhoneCode: nil)
+		let input = ChangePhoneViewModel.Input.init(getOldPhoneCode: tap.map{(phone: phone, if_voice: false, event: "vendor-reset-password")}, checkPhoneObservable: nil, getNewPhoneCode: nil)
 		
 		//添加点击加载框
 		tap.subscribe(onNext: { _ in
