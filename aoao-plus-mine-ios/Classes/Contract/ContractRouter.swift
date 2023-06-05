@@ -9,9 +9,9 @@ import UIKit
 import aoao_plus_common_ios
 import SwiftyJSON
 
-public struct ContractRouter {
+struct ContractRouter {
 	
-	public static func initialize() {
+	static func initialize() {
 		
 		/// 签约
 		navigator.register("sign".routerUrl) { url, values, context in
