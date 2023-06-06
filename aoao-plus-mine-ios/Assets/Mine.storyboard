@@ -1456,31 +1456,10 @@
                                 <color key="textColor" name="boss_000000-90_FFFFFF-90"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="259-jG-TgC">
-                                <rect key="frame" x="10" y="779" width="394" height="43"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="如果您经过深思熟虑，确定需要注销账号，可以发送邮件至客服邮箱 ">
-                                        <attributes>
-                                            <color key="NSColor" name="boss_000000-60_FFFFFF-60"/>
-                                            <font key="NSFont" metaFont="cellTitle"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="service@cityio.cn">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.67843137254901964" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" metaFont="cellTitle"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=" 进行申请，邮件中请备注您的注销需求，以及账号与实名认证的身份证号，我们将在收到邮件后的5个工作日内回复并处理。">
-                                        <attributes>
-                                            <color key="NSColor" name="boss_000000-60_FFFFFF-60"/>
-                                            <font key="NSFont" metaFont="cellTitle"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开发者: 北京欧客云科技有限公司" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="259-jG-TgC">
+                                <rect key="frame" x="10" y="808.66666666666663" width="394" height="13.333333333333371"/>
+                                <fontDescription key="fontDescription" name=".PingFangSC-Regular" family=".PingFang SC" pointSize="12"/>
+                                <color key="textColor" name="boss_000000-60_FFFFFF-60"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -1490,10 +1469,10 @@
                             <constraint firstItem="6Hh-VI-MZX" firstAttribute="top" secondItem="JSW-5F-Apu" secondAttribute="bottom" constant="19" id="9LL-ot-xUk"/>
                             <constraint firstItem="259-jG-TgC" firstAttribute="leading" secondItem="km2-Hm-Oka" secondAttribute="leading" constant="10" id="Aqh-Xi-hxP"/>
                             <constraint firstItem="259-jG-TgC" firstAttribute="centerX" secondItem="j7R-iL-2Ye" secondAttribute="centerX" id="Hpy-9l-6SI"/>
+                            <constraint firstItem="JSW-5F-Apu" firstAttribute="top" secondItem="boi-wh-fta" secondAttribute="bottom" constant="99" id="KQs-oA-svO"/>
                             <constraint firstItem="JSW-5F-Apu" firstAttribute="centerX" secondItem="km2-Hm-Oka" secondAttribute="centerX" id="Mlw-kv-gRx"/>
                             <constraint firstItem="j7R-iL-2Ye" firstAttribute="bottom" secondItem="259-jG-TgC" secondAttribute="bottom" constant="40" id="O82-aT-WE7"/>
                             <constraint firstItem="6Hh-VI-MZX" firstAttribute="centerX" secondItem="JSW-5F-Apu" secondAttribute="centerX" id="WLt-Ut-xFY"/>
-                            <constraint firstItem="JSW-5F-Apu" firstAttribute="top" secondItem="boi-wh-fta" secondAttribute="bottom" constant="99" id="WU9-0C-NGk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="关于" id="N6e-55-NFf"/>
