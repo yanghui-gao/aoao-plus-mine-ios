@@ -79,7 +79,7 @@ class UserInfomationVc: AAViewController {
 	func bindViewModel() {
 		/// 跳转更新身份证
 		updateTemporaryIDInfoButton.rx.tap.subscribe(onNext: { _ in
-			"IDCardAIVc".openURL(para: ["pushSource": PushSource.upload])
+			"updateIdentityCard".openURL()
 		}).disposed(by: disposeBag)
 	}
 }

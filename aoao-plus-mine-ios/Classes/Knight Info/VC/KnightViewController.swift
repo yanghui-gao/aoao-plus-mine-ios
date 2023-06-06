@@ -121,8 +121,8 @@ class KnightViewController: AAViewController {
 				if self.isShowWorkDetail {
 					return
 				}
-				/// 跳转完善身份信息
-				"IDCardAIVc".openURL(para: ["pushSource": PushSource.upload])
+				// 更新身份信息
+				"updateIdentityCard".openURL()
 			}
 			
 		}).disposed(by: disposeBag)
