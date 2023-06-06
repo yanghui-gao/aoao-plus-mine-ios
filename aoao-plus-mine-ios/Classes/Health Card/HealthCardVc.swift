@@ -42,10 +42,6 @@ class HealthCardVc: AAViewController {
     var healthCardViewModel: HealthCardViewModel?
     
     var healthEditStatus:HealthEditStatus = .edit
-
-	// 编辑状态
-	var editStatus: HealthEditStatus?
-	
     
 	private let editStatusObservable = PublishSubject<HealthEditStatus>()
     /// 健康证信息(从前一个页面传递)
@@ -71,6 +67,7 @@ class HealthCardVc: AAViewController {
         setUI()
         bindViewModel()
 		setHealthObservable.onNext(self.userInfoModel)
+		
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -184,6 +181,10 @@ class HealthCardVc: AAViewController {
         // 获取健康证信息成功
         self.setHealthObservable.subscribe(onNext: { [unowned self] userModel in
 			guard let model = userModel else {
+				self.editStatusObservable.onNext(.edit)
+				return
+			}
+			if model.healthCardInfo.healthCardState != .complete {
 				self.editStatusObservable.onNext(.edit)
 				return
 			}
