@@ -237,11 +237,21 @@ class WorkStatusExamineVC: AAViewController {
 		AAPermissionsManager.manager.getCameraPermissions(determinedHandle: nil)
 	}
 	@IBAction func contractTap(_ sender: Any) {
+		guard let userModel = UserModelManager.manager.userInfoModel else {
+			self.view.aoaoMakeToast("获取用户信息失败")
+			return
+		}
+		if userModel.userSignState == .signed {
+			return
+		}
 		"sign".openURL()
 	}
 	@IBAction func healthCardTap(_ sender: Any) {
 		guard let userModel = UserModelManager.manager.userInfoModel else {
 			self.view.aoaoMakeToast("获取用户信息失败")
+			return
+		}
+		if userModel.knightHealthCardState == .complete {
 			return
 		}
 		// 跳转健康证

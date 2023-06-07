@@ -30,7 +30,11 @@ class SignVc: AAViewController {
     private let contractCreatObservable = PublishSubject<Void>()
 	
 	private let signObservable = PublishSubject<(_id: String, signBase64: String)>()
-    
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.navigationController?.setNavigationBarHidden(false, animated: animated)
+	}
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.setUI()

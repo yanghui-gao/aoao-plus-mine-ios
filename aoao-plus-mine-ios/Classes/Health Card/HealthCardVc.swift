@@ -61,16 +61,17 @@ class HealthCardVc: AAViewController {
     let disposeBag = DisposeBag()
 
     private var imageTag = 0
-
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.navigationController?.setNavigationBarHidden(false, animated: animated)
+	}
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
         bindViewModel()
 		setHealthObservable.onNext(self.userInfoModel)
 		
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     func setUI() {
         // 圆角
