@@ -111,7 +111,7 @@ class WorkStatusExamineVC: AAViewController {
 	}
 	func setUI() {
 		self.title = "接单检测"
-		self.navigationController?.navigationItem.rightBarButtonItem = self.rightBarButtonItem
+		self.navigationItem.rightBarButtonItem = self.rightBarButtonItem
 	}
 	func bindViewModel() {
 		/// 通知权限是否打开
@@ -185,11 +185,14 @@ class WorkStatusExamineVC: AAViewController {
 			getKnightWorkInfoObservable: self.getKnightObservable)
 		
 		self.knightWorkViewModel = WorkStatusExamineVM(input: input)
-		
+		self.getKnightObservable.subscribe(onNext: { [unowned self] _ in
+			self.navigationController?.view.showLoadingMessage()
+		}).disposed(by: disposeBag)
 		// 骑手信息
 		self.knightWorkViewModel?
 			.outPutKnightUserInfoModelResultObservable
 			.subscribe(onNext: {[unowned self] _ in
+				self.navigationController?.view.dissmissLoadingView()
 				// 权限编辑
 				self.bindViewModel()
 			}).disposed(by: disposeBag)
