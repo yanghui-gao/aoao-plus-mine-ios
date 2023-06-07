@@ -48,9 +48,9 @@ class SetupViewController: AAViewController {
 	func setUI() {
 		self.title = "设置"
 		self.view.backgroundColor = UIColor(named: "bgcolor_F5F5F5_000000", in: AAMineModule.share.bundle, compatibleWith: nil)
-		VoiceSwitch.isOn = UserDefaults.standard.value(forKey: "voice") as? Bool ?? true
+		VoiceSwitch.isOn = UserDefaults.standard.value(forKey: voiceCacheKey) as? Bool ?? true
 		
-		vibrationSwitch.isOn = UserDefaults.standard.value(forKey: "vibration") as? Bool ?? true
+		vibrationSwitch.isOn = UserDefaults.standard.value(forKey: vibrationCacheKey) as? Bool ?? true
         
         self.logoutButton.layer.cornerRadius = 4
 		
@@ -113,12 +113,12 @@ class SetupViewController: AAViewController {
         
 		/// 声音开关
 		VoiceSwitch.rx.isOn.subscribe(onNext: { ison in
-			UserDefaults.standard.setValue(ison, forKey: "voice")
+			UserDefaults.standard.setValue(ison, forKey: voiceCacheKey)
 		}).disposed(by: disposeBag)
 		
 		/// 震动开关
 		vibrationSwitch.rx.isOn.subscribe(onNext: { ison in
-			UserDefaults.standard.setValue(ison, forKey: "vibration")
+			UserDefaults.standard.setValue(ison, forKey: vibrationCacheKey)
 		}).disposed(by: disposeBag)
 		
 		
@@ -135,8 +135,8 @@ class SetupViewController: AAViewController {
 			/// 移除用户信息
 			UserModelManager.manager.removeUserInfo()
 			/// 移除开关缓存
-			UserDefaults.standard.removeObject(forKey: "voice")
-			UserDefaults.standard.removeObject(forKey: "vibration")
+			UserDefaults.standard.removeObject(forKey: voiceCacheKey)
+			UserDefaults.standard.removeObject(forKey: vibrationCacheKey)
 			/// 跳转首页
 			"login".openURL()
 		}).disposed(by: disposeBag)
