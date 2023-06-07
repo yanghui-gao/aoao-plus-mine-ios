@@ -3122,13 +3122,13 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="24f-Ug-zYu">
-                                        <rect key="frame" x="0.0" y="40" width="414" height="352"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="352"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srI-OQ-Dx8">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="实名认证" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCD-gw-ZCp">
-                                                        <rect key="frame" x="37" y="13.666666666666671" width="57.333333333333343" height="17"/>
+                                                        <rect key="frame" x="37" y="13.666666666666664" width="57.333333333333343" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -3180,7 +3180,7 @@
                                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="劳工合同" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DM8-P1-lbG">
-                                                        <rect key="frame" x="37" y="13.666666666666657" width="57.333333333333343" height="17"/>
+                                                        <rect key="frame" x="37" y="13.666666666666671" width="57.333333333333343" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -3345,7 +3345,7 @@
                                                 <rect key="frame" x="0.0" y="176" width="414" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息通知权限" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nm1-sR-wU3">
-                                                        <rect key="frame" x="36.999999999999993" y="13.666666666666686" width="114.33333333333331" height="17"/>
+                                                        <rect key="frame" x="36.999999999999993" y="13.666666666666657" width="114.33333333333331" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -3561,7 +3561,7 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="24f-Ug-zYu" firstAttribute="leading" secondItem="cHD-iE-9UB" secondAttribute="leading" id="0Bq-hY-49Q"/>
-                                    <constraint firstItem="24f-Ug-zYu" firstAttribute="top" secondItem="cHD-iE-9UB" secondAttribute="top" constant="40" id="hFY-9S-XP9"/>
+                                    <constraint firstItem="24f-Ug-zYu" firstAttribute="top" secondItem="cHD-iE-9UB" secondAttribute="top" id="hFY-9S-XP9"/>
                                     <constraint firstAttribute="trailing" secondItem="24f-Ug-zYu" secondAttribute="trailing" id="pkk-px-P5q"/>
                                 </constraints>
                             </view>
