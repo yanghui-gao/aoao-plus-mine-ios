@@ -93,7 +93,7 @@ class WorkStatusExamineVC: AAViewController {
 	}
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		self.navigationController?.setNavigationBarHidden(true, animated: true)
+		self.navigationController?.setNavigationBarHidden(false, animated: animated)
 		guard let id = UserModelManager.manager.userInfoModel?.id else {
 			return
 		}
@@ -107,7 +107,7 @@ class WorkStatusExamineVC: AAViewController {
 	}
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		self.navigationController?.setNavigationBarHidden(false, animated: true)
+		self.navigationController?.setNavigationBarHidden(true, animated: animated)
 	}
 	func setUI() {
 		self.title = "接单检测"
