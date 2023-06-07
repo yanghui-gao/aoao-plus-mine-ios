@@ -138,6 +138,7 @@ class SignVc: AAViewController {
 						return
 					}
 				}
+				self.navigationController?.popViewController(animated: true)
 			})
         }).disposed(by: disposebag)
     }
