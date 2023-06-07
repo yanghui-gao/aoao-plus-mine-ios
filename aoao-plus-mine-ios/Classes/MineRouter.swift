@@ -66,6 +66,13 @@ public struct MineRouter {
 			return vc
 		}
 		
+		navigator.register("workStatusExamine".routerUrl) { url, values, context in
+			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "WorkStatusExamineVC")
+			return vc
+		}
+		
+		
+		
 		/// 帮助
 		navigator.register("setup".routerUrl) { url, values, context in
 			let vc = AAMineModule.share.mineStoryboard.instantiateViewController(withIdentifier: "SetupViewController")

@@ -63,7 +63,8 @@ class MineViewController: AAViewController {
 		
 	}
 	func setCollectionDateSource() {
-		dateSource = [["name": "骑手信息", "icon": "knight", "type": "knight"],
+		dateSource = [["name": "接单检测", "icon": "examine", "type": "examine"],
+					  ["name": "骑手信息", "icon": "knight", "type": "knight"],
 					  ["name": "我的业绩", "icon": "result", "type": "statistics"],
 					  ["name": "历史订单", "icon": "historyOrder", "type": "historyOrder"],
 					  ["name": "运力调度", "icon": "distributeorder", "type": "distributeorder"],
@@ -109,6 +110,8 @@ extension MineViewController: UICollectionViewDelegate, UICollectionViewDataSour
 				"learn".openURL()
 			case "knightManager":
 				"knightManager".openURL()
+			case "examine":
+				"workStatusExamine".openURL()
 			default:
 				print("other")
 			}
