@@ -31,8 +31,8 @@ public struct MineRouter {
 			if let accountID = para["accountID"] as? String {
 				vc?.accountID = accountID
 			}
-			if let shopID = para["shopID"] as? String {
-				vc?.shopID = shopID
+			if let type = para["type"] as? KnightInfoPushType {
+				vc?.KnightInfoPushType = type
 			}
 			return vc
 		}

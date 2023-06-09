@@ -6,47 +6,29 @@
 //
 
 import UIKit
-import XLPagerTabStrip
 import aoao_plus_common_ios
 import RxSwift
 import DZNEmptyDataSet
 
-class KnightManagerListViewController: AAViewController, IndicatorInfoProvider {
-	
-	
-	func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-		switch self.workStatueType {
-		case .activeWorker:
-			return IndicatorInfo(title: "在岗骑手")
-		case .dimission:
-			return IndicatorInfo(title: "离岗骑手")
-		default:
-			return IndicatorInfo(title: "")
-		}
-	}
-	
-
+class KnightManagerListViewController: AAViewController {
 	/// tableView
 	@IBOutlet weak var listTableView: UITableView!
 	/// 工作状态
-	var workStatueType:WorKState = .activeWorker
+	var workStatueType:UserWorkState = .onlion
 	
 	/// 数据源
 	var knightList:[KnightManagerModel] = []
 	
 	///
-	var knightManagerListViewModel:KnightManagerListViewModel?
+	var knightManagerViewModel:KnightManagerViewModel?
 	
 	/// 离岗序列
-	let dismissionObservable = PublishSubject<(accountID: String, storeID: String, workState: WorKState)>()
-	
-	/// 店铺ID
-	var storeID: String?
-	
-	let notificationName = Notification.Name(rawValue: "getKnightListNotification")
+	let dismissionObservable = PublishSubject<(knightid: String, workState: UserWorkState)>()
 	
 	/// 骑手列表获取成功回调
-	var knightListResultObservable = PublishSubject<Void>()
+	var knightListObservable = PublishSubject<(workType: UserWorkState, page: Int)>()
+	
+	var page = 1
 	
 	let disposeBag = DisposeBag()
 	
@@ -55,6 +37,10 @@ class KnightManagerListViewController: AAViewController, IndicatorInfoProvider {
 		setUI()
 		bindViewModel()
     }
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.knightListObservable.onNext((workType: self.workStatueType, page: 1))
+	}
 	
 	func setUI() {
 		let bgColor = UIColor(named: "bgcolor_F5F5F5_000000", in: AAMineModule.share.bundle, compatibleWith: nil)
@@ -73,39 +59,63 @@ class KnightManagerListViewController: AAViewController, IndicatorInfoProvider {
 
 	func bindViewModel() {
 		
-		let Input = KnightManagerListViewModel.Input.init(dismissionObservable: self.dismissionObservable)
+		let Input = KnightManagerViewModel.Input.init(getShopKnightListObservable: self.knightListObservable, dismissionObservable: self.dismissionObservable)
 		
-		self.knightManagerListViewModel = KnightManagerListViewModel.init(input: Input)
+		self.knightManagerViewModel = KnightManagerViewModel.init(input: Input)
+
+		/// 下拉刷新
+		self.knightManagerViewModel?.refreshBind(to: self.listTableView, headerHandle: {
+			self.knightListObservable.onNext((workType: self.workStatueType, page: 1))
+		}, footerHandle: {
+			self.page += 1
+			self.knightListObservable.onNext((workType: self.workStatueType, page: self.page))
+		}).disposed(by: self.disposeBag)
 		
+		/// 订单请求回调
+		self.knightManagerViewModel?.outPutKnightListObservable
+			.subscribe(onNext: { [unowned self] res in
+				if res.isRrefresh {
+					self.knightList = res.data
+				} else {
+					self.knightList += res.data
+				}
+				self.listTableView.reloadData()
+		}).disposed(by: disposeBag)
 		
+		self.knightManagerViewModel?
+			.outPutOrderMetaResultObservable
+			.subscribe(onNext: { [unowned self] meta in
+				self.knightManagerViewModel?.refreshStatusManage.onNext(.endFooterRefresh)
+				self.knightManagerViewModel?.refreshStatusManage.onNext(.endHeaderRefresh)
+				// 处理是否还有更多数据
+				let hasMore = meta["has_more"].boolValue
+				// 请求成功 page 变化
+				self.page = meta["page"].intValue
+				//
+				self.knightManagerViewModel?.refreshStatusManage.onNext(.footerStatus(isHidden: false, isNoMoreData: !hasMore))
+			}).disposed(by: disposeBag)
+		
+		/// 错误回调
+		self.knightManagerViewModel?
+			.outPutErrorObservable
+			.subscribe(onNext: { error in
+				self.navigationController?.view.makeToast(error.zhMessage)
+				self.navigationController?.view.dissmissLoadingView()
+			}).disposed(by: disposeBag)
+		
+		// 离岗操作
 		self.dismissionObservable.subscribe(onNext: { _ in
 			self.navigationController?.view.showLoadingMessage()
 		}).disposed(by: disposeBag)
 		
 		/// 离岗回调
-		self.knightManagerListViewModel?.addKnightResultObservable.subscribe(onNext: { res in
-			self.navigationController?.view.dissmissLoadingView()
-			/// 请求列表
-			NotificationCenter.default.post(name: self.notificationName, object: self,userInfo: nil)
-		}).disposed(by: disposeBag)
-		
-		/// 下拉刷新
-		self.knightManagerListViewModel?.refreshBind(to: self.listTableView, headerHandle: {
-			// 发送通知
-			NotificationCenter.default.post(name: self.notificationName, object: self,userInfo: nil)
-		}, footerHandle: nil).disposed(by: self.disposeBag)
-		
-		/// 订单请求回调
-		self.knightListResultObservable.subscribe(onNext: { [unowned self] _ in
-			self.knightManagerListViewModel?.refreshStatusManage.onNext(.endHeaderRefresh)
-			self.listTableView.reloadData()
-		}).disposed(by: disposeBag)
-		
-		/// 错误回调
-		self.knightManagerListViewModel?.errorObservable.subscribe(onNext: { error in
-			self.navigationController?.view.makeToast(error.zhMessage)
-			self.navigationController?.view.dissmissLoadingView()
-		}).disposed(by: disposeBag)
+		self.knightManagerViewModel?
+			.dismissionResultObservable
+			.subscribe(onNext: { res in
+				self.navigationController?.view.dissmissLoadingView()
+				// 重新获取列表
+				self.knightListObservable.onNext((workType: self.workStatueType, page: 1))
+			}).disposed(by: disposeBag)
 	}
 }
 extension KnightManagerListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -119,13 +129,10 @@ extension KnightManagerListViewController: UITableViewDelegate, UITableViewDataS
 		let model = self.knightList[indexPath.row]
 		cell.model = model
 		cell.dismissionButtonHandle = {
-			guard let storeID = self.storeID else {
-				return
-			}
 			let alert = UIAlertController(title: "提示", message: "确认将该骑手变为离岗状态?", preferredStyle: .alert)
 			let confim = UIAlertAction(title: "确认", style: .default, handler: { action in
 				/// 调用离岗
-				self.dismissionObservable.onNext((accountID: model.courierId, storeID: storeID, workState: WorKState.dimission))
+				self.dismissionObservable.onNext((knightid: model.id, workState: .offline))
 			})
 			let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
 			cancel.setValue(UIColor(named: "boss_000000-60_FFFFFF-60", in: AAMineModule.share.bundle, compatibleWith: nil), forKey:"titleTextColor")
@@ -140,10 +147,8 @@ extension KnightManagerListViewController: UITableViewDelegate, UITableViewDataS
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let model = self.knightList[indexPath.row]
-		guard let shopID = self.storeID else {
-			return
-		}
-		"knight".openURL(para: ["accountID": model.courierId, "shopID": shopID])
+		// 如果是自己的信息 相当于点击mine
+		"knight".openURL(para: ["accountID": model.id, "type": KnightInfoPushType.knightManager])
 	}
 }
 
@@ -157,17 +162,6 @@ extension KnightManagerListViewController: DZNEmptyDataSetSource, DZNEmptyDataSe
 			NSAttributedString.Key.foregroundColor: UIColor(named: "boss_000000-40_FFFFFF-40", in: AAMineModule.share.bundle, compatibleWith: nil) ?? .darkGray
 		]
 		return NSAttributedString(string: "暂无骑手", attributes: attributes)
-	}
-	func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-		let attributes = [
-			NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16.0),
-			NSAttributedString.Key.foregroundColor: UIColor(named: "Color_00AD66", in: AAMineModule.share.bundle, compatibleWith: nil) ?? .darkGray
-		]
-		return NSAttributedString(string: "点击刷新", attributes: attributes)
-	}
-	func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
-		/// 刷新列表
-		NotificationCenter.default.post(name: self.notificationName, object: self,userInfo: nil)
 	}
 	public func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
 		return true

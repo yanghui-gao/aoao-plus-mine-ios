@@ -12,14 +12,18 @@ import RxSwift
 import aoao_plus_common_ios
 
 enum KnightManagerAPI {
+	/// 获取骑手列表
+	case getKnightList(workType: UserWorkState, page: Int)
+	
+	/// 离岗
+	case dissmission(knightid: String, workState: UserWorkState)
+	
 	/// 获取店铺列表
 	case getShopList(accountID: String)
 	/// 检查骑手信息
 	case checkKnightContent(name: String, phone: String, idCardNum: String)
-	/// 获取当前店铺骑手列表
-	case getCurrentStoreKnightList(storeID: String)
-	/// 离岗
-	case dissmission(accountID: String, storeID: String, workState: WorKState)
+	
+	
 	/// 创建骑手
 	case createKnight(name:String, mobile:String, idCardNum: String, courier_store_maps:
 					  [(storeID: String, merchantID: String, role: KnightRoleType, workType: KnightWorkType)])
@@ -43,19 +47,21 @@ extension KnightManagerAPI: TargetType, AuthenticationProtocol {
 	public var task: Task {
 		var params: [String: Any] = [:]
 		switch self {
-		case .getShopList(let accountID):
-			params["courier_id"] = accountID
-			params["state"] = 100
+		case .getKnightList(let type, let page):
+			params["work_state"] = type.rawValue
+			params["_meta"] = ["page":page, "limit": 30]
+			
+		case .dissmission(let id, let workstate):
+			params["_id"] = id
+			params["work_state"] = workstate.rawValue
+			params["is_root"] = false
+			params["is_mock_poi"] = false
+			
 		case .checkKnightContent(let name, let phone, let idCardNum):
 			params["name"] = name
 			params["mobile"] = phone
 			params["id_card_num"] = idCardNum
-		case .getCurrentStoreKnightList(let storeID):
-			params["store_id"] =  storeID
-		case .dissmission(let accountID, let storeID, let workstate):
-			params["courier_id"] = accountID
-			params["store_id"] = storeID
-			params["work_state"] = workstate.rawValue
+		
 		case .createKnight(let name, let mobile, let idCardNum,let courier_store_maps):
 			params["name"] = name
 			params["mobile"] = mobile
@@ -81,6 +87,8 @@ extension KnightManagerAPI: TargetType, AuthenticationProtocol {
 				]
 			}
 			params["courier_store_maps"] = dic
+		default:
+			break
 		}
 		
 		return .requestParameters(parameters: params, encoding: JSONEncoding.default)
@@ -88,14 +96,16 @@ extension KnightManagerAPI: TargetType, AuthenticationProtocol {
 	
 	public var headers: [String: String]? {
 		switch self {
+		case .getKnightList(_,_):
+			return ["X-CMD":"aoao.courier.work.allow_courier_find"]
+		case .dissmission(_,_):
+			return ["X-CMD":"aoao.courier.work.switch_work_state"]
+			
 		case .getShopList(_):
 			return ["X-CMD":"dms.courier.courier_work_store.find"]
 		case .checkKnightContent(_, _, _):
 			return ["X-CMD":"dms.courier.courier.check"]
-		case .getCurrentStoreKnightList(_):
-			return ["X-CMD":"dms.merchant.store.find_courier_realtime_monitor"]
-		case .dissmission(_,_,_):
-			return ["X-CMD":"dms.courier.courier.switch_work_state_v2"]
+		
 		case .createKnight(_,_,_,_):
 			return ["X-CMD":"dms.courier.courier.create"]
 		case .editKnightShopList(_):

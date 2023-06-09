@@ -174,6 +174,11 @@ class SetupViewController: AAViewController {
 	}
     
     @IBAction func logout(_ sender: Any) {
+		// 如果是开始接单状态 不可退出登录
+		guard let model = UserModelManager.manager.userInfoModel, model.userWorkState != .onlion else {
+			self.view.aoaoMakeToast("当前开始接单中, 无法退出登录")
+			return
+		}
 		let alert = UIAlertController(title: nil, message: "确认退出登录？", preferredStyle: .alert)
 		let confim = UIAlertAction(title: "确认", style: .default, handler: { action in
 			/// 退出登录

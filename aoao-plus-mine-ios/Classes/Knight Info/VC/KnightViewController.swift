@@ -35,6 +35,8 @@ class KnightViewController: AAViewController {
 	@IBOutlet weak var achievementView: UIView!
 	
 	let getUserObservable = PublishSubject<String>()
+	// 入口
+	var KnightInfoPushType: KnightInfoPushType = .mine
 	
 	var getUserInfoViewModel:GetUserInfoViewModel?
 	// 骑手详情信息
@@ -102,13 +104,9 @@ class KnightViewController: AAViewController {
 		self.title = "骑手信息"
 		///
 		self.view.backgroundColor = UIColor(named: "bgcolor_F5F5F5_000000", in: AAMineModule.share.bundle, compatibleWith: nil)
-		if let _ = self.shopID {
-			self.isShowWorkDetail = true
-		} else {
-			self.isShowWorkDetail = false
-		}
-		/// 业绩查看
-		self.achievementView.isHidden = !(self.isShowWorkDetail)
+		
+		/// 从我的入口进入 不展示 业绩查看
+		self.achievementView.isHidden = KnightInfoPushType == .mine
 	}
 	func bindViewModel() {
 		/// 身份证点击
@@ -118,7 +116,7 @@ class KnightViewController: AAViewController {
 				"userinfomation".openURL(para: ["userInfoModel": self.userInfoModel])
 			} else {
 				/// 如果是从骑手管理页跳转 && 未完善 不跳转身份信息
-				if self.isShowWorkDetail {
+				if KnightInfoPushType == .knightManager {
 					return
 				}
 				// 更新身份信息
@@ -128,12 +126,10 @@ class KnightViewController: AAViewController {
 		}).disposed(by: disposeBag)
 		
 		/// 健康证点击
-		healthCardTap.rx.event.subscribe(onNext: { _ in
+		healthCardTap.rx.event.subscribe(onNext: { [unowned self] _ in
 			/// 如果是从骑手管理页跳转 && 未完善 则健康证信息不可点击
-			if let healthisComplete = self.healthisComplete {
-				if self.isShowWorkDetail && !healthisComplete {
-					return
-				}
+			if let healthisComplete = self.healthisComplete, !healthisComplete, self.KnightInfoPushType == .knightManager {
+				return
 			}
 			"health".openURL(para: ["healthCardInfo": self.userInfoModel])
 		}).disposed(by: disposeBag)
@@ -161,13 +157,10 @@ class KnightViewController: AAViewController {
 		
 		// 业绩查看点击
 		achievementViewTap.rx.event.subscribe(onNext: { _ in
-			guard let shopID = self.shopID else {
-				return
-			}
 			guard let model = self.userInfoModel else {
 				return
 			}
-			"statistics".openURL(para: ["shopID": shopID, "userInfoID": model.id])
+			"statistics".openURL(para: ["userInfoID": model.id])
 		}).disposed(by: disposeBag)
 		
 		let input = GetUserInfoViewModel.Input(getUserInfoContent: self.getUserObservable)

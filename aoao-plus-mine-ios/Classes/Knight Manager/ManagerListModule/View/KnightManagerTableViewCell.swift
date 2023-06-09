@@ -17,31 +17,34 @@ class KnightManagerTableViewCell: UITableViewCell {
 	@IBOutlet weak var distributionView: UIView!
 	// 无单
 	@IBOutlet weak var noneOrderView: UIView!
-	// 工作状态
-	@IBOutlet weak var workStatueLabel: UILabel!
-	// 距离门店距离
-	@IBOutlet weak var locationLabel: UILabel!
+	// 骑手电话
+	@IBOutlet weak var phoneLabel: UILabel!
 	// 离岗
 	@IBOutlet weak var dimissionButton: UIButton!
 	// 骑手信息View
 	@IBOutlet weak var knightContentView: UIView!
-	
+	// 组长leadingView 非组长隐藏
 	@IBOutlet weak var leadingView: UIView!
+	
+	@IBOutlet weak var residentView: UIView!
+	
+	@IBOutlet weak var nonResidentView: UIView!
 	// 离岗点击回调
 	var dismissionButtonHandle: (() -> Void)?
 	
 	var model:KnightManagerModel?{
 		didSet {
 			if let model = self.model {
-				self.nameLabel.text = model.courierName
-				self.leaderView.isHidden = model.knightRoleType == .knight
-				self.leadingView.isHidden = model.knightRoleType == .knight
-				self.distributionView.isHidden = !model.isdoing
-				self.workStatueLabel.text = model.knightWorkType.workStatusStr()
-				self.workStatueLabel.textColor = model.knightWorkType.workStatusColor()
-				self.locationLabel.text = "距门店距离" + model.distance
+				self.nameLabel.text = model.name
+				self.leaderView.isHidden = model.knightRoleType == .normalKnight
+				self.leadingView.isHidden = model.knightRoleType == .normalKnight
+				self.distributionView.isHidden = !model.isDelivery
+				self.phoneLabel.text = model.phoneStr
 				self.dimissionButton.isHidden = !model.isShowDismissButton
-				self.noneOrderView.isHidden = !model.isLeisure
+				self.noneOrderView.isHidden = model.isDelivery
+				// 是否展示驻店
+				self.residentView.isHidden = model.ids.isEmpty
+				self.nonResidentView.isHidden = !model.ids.isEmpty
 			}
 		}
 	}
@@ -56,6 +59,10 @@ class KnightManagerTableViewCell: UITableViewCell {
 		self.distributionView.layer.borderWidth = 0.5
 		self.distributionView.layer.cornerRadius = 4
 		self.distributionView.layer.borderColor = UIColor(named: "Color_00AD66", in: AAMineModule.share.bundle, compatibleWith: nil)?.cgColor
+		
+		
+		self.residentView.layer.cornerRadius = 4
+		self.nonResidentView.layer.cornerRadius = 4
 		
 		self.noneOrderView.layer.borderWidth = 0.5
 		self.noneOrderView.layer.cornerRadius = 4
