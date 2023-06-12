@@ -329,32 +329,32 @@ class StatisticsViewController: AAViewController {
 			let shopVc = stroyboard.instantiateViewController(withIdentifier: "SelectShopViewController") as! SelectShopViewController
 			shopVc.modalPresentationStyle = .overCurrentContext
 			
-			shopVc.chooseKnightObservable.subscribe(onNext: { [unowned self] index in
-                if !self.shopsContentModelList.isEmpty {
-					
-                    self.shopsModel = shopsContentModelList[index]
-                    
-					self.selectIndex = index
-					
-					self.shopNameLabel.text = shopsContentModelList[index].storeInfo?.name
-					
-					shopsContentModelList[index].isSelect = true
-					
-					guard let id = shopsContentModelList[index].storeInfo.id else {
-						return
-					}
-					guard let courierid = self.userInfoID else {
-						return
-					}
-                    
-                    self.statisticsListObservable.onNext((courierid: courierid, storeID: id, fromDate: self.fromDate, toDate: self.toDate))
-                    self.getStatisticsObservable.onNext((courierid: courierid, storeID: id, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
-				}
-				
-			}).disposed(by: self.disposeBag)
+//			shopVc.chooseKnightObservable.subscribe(onNext: { [unowned self] index in
+//                if !self.shopsContentModelList.isEmpty {
+//					
+//                    self.shopsModel = shopsContentModelList[index]
+//                    
+//					self.selectIndex = index
+//					
+//					self.shopNameLabel.text = shopsContentModelList[index].storeInfo?.name
+//					
+//					shopsContentModelList[index].isSelect = true
+//					
+//					guard let id = shopsContentModelList[index].storeInfo.id else {
+//						return
+//					}
+//					guard let courierid = self.userInfoID else {
+//						return
+//					}
+//                    
+//                    self.statisticsListObservable.onNext((courierid: courierid, storeID: id, fromDate: self.fromDate, toDate: self.toDate))
+//                    self.getStatisticsObservable.onNext((courierid: courierid, storeID: id, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
+//				}
+//				
+//			}).disposed(by: self.disposeBag)
 			/// 每次都回传
-			shopVc.dateSource = self.shopsContentModelList
-			shopVc.selectIndex = self.selectIndex
+//			shopVc.dateSource = self.shopsContentModelList
+//			shopVc.selectIndex = self.selectIndex
 			self.navigationController?.present(shopVc, animated: true, completion: {
 				UIView.animate(withDuration: 0.5) {
 					shopVc.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)

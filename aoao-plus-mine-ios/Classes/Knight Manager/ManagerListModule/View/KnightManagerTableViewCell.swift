@@ -43,8 +43,8 @@ class KnightManagerTableViewCell: UITableViewCell {
 				self.dimissionButton.isHidden = !model.isShowDismissButton
 				self.noneOrderView.isHidden = model.isDelivery
 				// 是否展示驻店
-				self.residentView.isHidden = model.ids.isEmpty
-				self.nonResidentView.isHidden = !model.ids.isEmpty
+				self.residentView.isHidden = model.storeids.isEmpty
+				self.nonResidentView.isHidden = !model.storeids.isEmpty
 			}
 		}
 	}
