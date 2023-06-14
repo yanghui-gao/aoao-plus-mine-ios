@@ -68,8 +68,6 @@ class WorkStatusExamineVC: AAViewController {
 
 	@IBOutlet weak var contentView: UIView!
 	
-	let notificationName = Notification.Name(rawValue: "getOrderListNotification")
-	
 	// 骑手工作状态
 	var knightWorkViewModel:WorkStatusExamineVM?
 	/// 获取骑手信息
