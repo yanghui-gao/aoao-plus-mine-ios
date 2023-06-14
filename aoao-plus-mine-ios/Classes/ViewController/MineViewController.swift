@@ -63,16 +63,29 @@ class MineViewController: AAViewController {
 		
 	}
 	func setCollectionDateSource() {
-		dateSource = [["name": "接单检测", "icon": "examine", "type": "examine"],
-					  ["name": "骑手信息", "icon": "knight", "type": "knight"],
-					  ["name": "我的业绩", "icon": "result", "type": "statistics"],
-					  ["name": "历史订单", "icon": "historyOrder", "type": "historyOrder"],
-					  ["name": "运力调度", "icon": "distributeorder", "type": "distributeorder"],
-					  ["name": "帮助", "icon": "help", "type": "help"],
-					  ["name": "设置", "icon": "setup", "type": "setup"],
-					  ["name": "培训学习", "icon": "learn", "type": "learn"],
-					  ["name": "骑手管理", "icon": "knightManager", "type": "knightManager"]
-		]
+		if UserModelManager.manager.userInfoModel?.userRole == .groupLeader {
+			dateSource = [["name": "接单检测", "icon": "examine", "type": "examine"],
+						  ["name": "骑手信息", "icon": "knight", "type": "knight"],
+						  ["name": "我的业绩", "icon": "result", "type": "statistics"],
+						  ["name": "历史订单", "icon": "historyOrder", "type": "historyOrder"],
+						  ["name": "运力调度", "icon": "distributeorder", "type": "distributeorder"],
+						  ["name": "帮助", "icon": "help", "type": "help"],
+						  ["name": "设置", "icon": "setup", "type": "setup"],
+						  ["name": "培训学习", "icon": "learn", "type": "learn"],
+						  ["name": "骑手管理", "icon": "knightManager", "type": "knightManager"]
+			]
+		} else {
+			dateSource = [["name": "接单检测", "icon": "examine", "type": "examine"],
+						  ["name": "骑手信息", "icon": "knight", "type": "knight"],
+						  ["name": "我的业绩", "icon": "result", "type": "statistics"],
+						  ["name": "历史订单", "icon": "historyOrder", "type": "historyOrder"],
+						  ["name": "帮助", "icon": "help", "type": "help"],
+						  ["name": "设置", "icon": "setup", "type": "setup"],
+						  ["name": "培训学习", "icon": "learn", "type": "learn"]
+						  
+			]
+		}
+		
 	}
 
 }
