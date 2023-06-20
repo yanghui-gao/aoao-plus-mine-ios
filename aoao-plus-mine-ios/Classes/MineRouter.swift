@@ -89,8 +89,8 @@ public struct MineRouter {
 			guard let para = context as? [String: Any?] else {
 				return vc
 			}
-			if let shopID = para["shopID"] as? String {
-				vc.shopID = shopID
+			if let storeId = para["storeId"] as? String {
+				vc.storeId = storeId
 			}
 			if let userInfoID = para["userInfoID"] as? String {
 				vc.userInfoID = userInfoID

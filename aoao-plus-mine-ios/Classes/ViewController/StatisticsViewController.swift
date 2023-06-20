@@ -66,7 +66,7 @@ class StatisticsViewController: AAViewController {
     var selectDate:Date?
 	
 	/// 店铺ID
-	var shopID: String?
+	var storeId: String?
 	/// 用户ID
 	var userInfoID: String?
 	/// 选择店铺高度
@@ -252,8 +252,8 @@ class StatisticsViewController: AAViewController {
 			self.shopsContentModelList = list
 			if !list.isEmpty {
 				/// 获取选中指定的店铺信息
-				if let shopID = self.shopID, let userID = self.userInfoID {
-					if let model = list.first(where: {$0.storeId == shopID}) {
+				if let storeId = self.storeId, let userID = self.userInfoID {
+					if let model = list.first(where: {$0.storeId == storeId}) {
 						self.shopsModel = model
 						self.selectIndex = 0
 						
@@ -261,8 +261,8 @@ class StatisticsViewController: AAViewController {
 						self.shopNameLabel.text = model.storeInfo.name
 						
 						/// 获取骑手信息
-						self.statisticsListObservable.onNext((courierid: userID, storeID: shopID, fromDate: self.fromDate, toDate: self.toDate))
-						self.getStatisticsObservable.onNext((courierid: userID, storeID: shopID, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
+						self.statisticsListObservable.onNext((courierid: userID, storeID: storeId, fromDate: self.fromDate, toDate: self.toDate))
+						self.getStatisticsObservable.onNext((courierid: userID, storeID: storeId, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
 						
 						model.isSelect = true
 					}

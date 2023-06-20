@@ -85,7 +85,7 @@ class KnightViewController: AAViewController {
 	var isShowWorkDetail = false
 	
 	// 门店ID 用于查询数据统计信息
-	var shopID: String?
+	var storeId: String?
 	
 	let disposeBag = DisposeBag()
 	
