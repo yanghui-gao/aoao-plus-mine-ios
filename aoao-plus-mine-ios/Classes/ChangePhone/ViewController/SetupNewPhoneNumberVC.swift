@@ -69,12 +69,15 @@ class SetupNewPhoneNumberVC: AAViewController {
 		
 		/// 下一步点击事件
 		nextSetupButton.rx.tap.subscribe(onNext: { _ in
+			self.view.endEditing(true)
 			// 与本地手机号判断是否一致
 			guard let phone = UserModelManager.manager.userInfoModel?.phone else {
+				self.view.aoaoMakeToast("原手机号获取失败, 请重试")
 				return
 			}
 			/// 输入手机号
 			guard let textFieldText = self.phoneTextField.text else {
+				self.view.aoaoMakeToast("请输入新手机号!")
 				return
 			}
 			/// 手机号是否与原手机号一致

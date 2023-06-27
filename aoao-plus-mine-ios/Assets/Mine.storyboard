@@ -1590,7 +1590,7 @@
                                 <color key="textColor" name="boss_000000-60_FFFFFF-60"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KfY-4g-HP0" customClass="PhoneNumberTextField" customModule="aoao_common_ios">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="KfY-4g-HP0" customClass="PhoneNumberTextField" customModule="aoao_common_ios">
                                 <rect key="frame" x="16" y="206.66666666666666" width="382" height="18.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
