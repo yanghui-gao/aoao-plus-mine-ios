@@ -14,8 +14,6 @@ import aoao_plus_common_ios
 public enum AccountCancellationAPI {
 	/// 发起注销
 	case accountCancellation
-	/// 获取注销
-	case getAccountCancellationInfo
 
 }
 extension AccountCancellationAPI: TargetType, AuthenticationProtocol {
@@ -36,9 +34,7 @@ extension AccountCancellationAPI: TargetType, AuthenticationProtocol {
 	public var headers: [String: String]? {
 		switch self{
 		case .accountCancellation:
-			return ["X-CMD":"dms.account.account.apply_revoke"]
-		case .getAccountCancellationInfo:
-			return ["X-CMD":"dms.account.account.apply_revoke_find_one"]
+			return ["X-CMD":"aoao.courier.courier.deactivate"]
 		}
 	}
 	public var authenticationType: AuthenticationType? {
