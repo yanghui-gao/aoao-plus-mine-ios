@@ -29,13 +29,8 @@ class StatisticsViewController: AAViewController {
 	var statisticsViewModel:StatisticsViewModel?
 	
 	// 获取骑手统计信息
-    let getStatisticsObservable = PublishSubject<(courierid: String, storeID: String, date: String)>()
-    
-    /// 获取折线图信息
-    let statisticsListObservable = PublishSubject<(courierid: String, storeID: String, fromDate: String, toDate: String)>()
-	
-	// 获取店铺列表
-	let getshopListObservable = PublishSubject<(String)>()
+    let getStatisticsObservable = PublishSubject<(courierid: String, date: String)>()
+
 	
 	/// 店铺列表
 	var shopsContentModelList:[ShopsContentModel] = []
@@ -52,21 +47,18 @@ class StatisticsViewController: AAViewController {
 	private var selectIndex = 0
 	
 	let disposeBag = DisposeBag()
-    
-    var shopsModel: ShopsContentModel?
-    
+    // 月份
     var monthStr = ""{
         didSet {
             self.selectDateLabel.text = self.monthStr
         }
     }
+	// 折线图开始时间
     var fromDate = ""
+	// 折线图结束时间
     var toDate = ""
-    
+    // 选中时间
     var selectDate:Date?
-	
-	/// 店铺ID
-	var storeId: String?
 	/// 用户ID
 	var userInfoID: String?
 	/// 选择店铺高度
@@ -80,8 +72,13 @@ class StatisticsViewController: AAViewController {
 		bindViewModel()
 		
 		/// 获取用户信息
-		if let id = self.userInfoID {
-			self.getshopListObservable.onNext(id)
+		if let id = self.userInfoID, let selectDate = self.selectDate {
+			let formatter = DateFormatter()
+			formatter.locale = Locale.init(identifier: "zh_CN")
+			formatter.dateFormat = "yyyyMM"
+			let selectDate = formatter.string(from: selectDate)
+			// 获取统计信息
+			self.getStatisticsObservable.onNext((courierid: id, date: selectDate))
 		}
     }
 	func setUI() {
@@ -119,56 +116,49 @@ class StatisticsViewController: AAViewController {
         let datePicker = datePickManager.datePicker
         datePicker?.datePickerMode = .yearAndMonth
         
-        
+        let today = Date()
         let formatter = DateFormatter()
         formatter.locale = Locale.init(identifier: "zh_CN")
         formatter.dateFormat = "yyyyMMdd"
+		// 选择器开始时间
         let minDate = formatter.date(from: "20210101")
-        
+        // 选中时间
         datePicker?.setDate(self.selectDate, animated: false)
-        
+        // 开始时间
         datePicker?.minimumDate = minDate
-        datePicker?.maximumDate = Date()
+		// 结束时间
+        datePicker?.maximumDate = today
         datePicker?.selectedDate = { date in
-            if let date = date, let year = date.year, let month = date.month {
-                
-                let time_str = "\(year)\(month < 10 ? "0\(month)": "\(month)")02"
-                formatter.dateFormat = "yyyyMMdd"
-                
-                
-				if let model = self.shopsModel, let id = self.userInfoID, let selectdate = formatter.date(from: time_str) {
-                    self.selectDate = selectdate
-                    formatter.dateFormat = "yyyy-MM"
-                    self.monthStr = formatter.string(from: selectdate)
-                    
-                    formatter.dateFormat = "yyyyMM01"
-                    self.fromDate = formatter.string(from: selectdate)
-                    
-                    print(selectdate.monthDays)
-                    let date = Date()
-                    let todayformatter = DateFormatter()
-                    todayformatter.locale = Locale.init(identifier: "zh_CN")
-                    todayformatter.dateFormat = "yyyy-MM"
-                    let todayStr = todayformatter.string(from: date)
-                    /// 如果选中月是当前月
-                    /// 结束日期为昨天
-                    /// 不是当前月 结束日期为 月底
-                    if self.monthStr == todayStr {
-                        let toDate = selectdate - 1.days
-                        formatter.dateFormat = "yyyyMM\(selectdate.monthDays)"
-                        self.toDate = formatter.string(from: toDate)
-                    } else {
-                        formatter.dateFormat = "yyyyMM\(selectdate.monthDays)"
-                        self.toDate = formatter.string(from: selectdate)
-                    }
-                    
-                    
-                    
-                    /// 获取骑手信息
-                    self.statisticsListObservable.onNext((courierid: id, storeID: model.storeInfo.id, fromDate: self.fromDate, toDate: self.toDate))
-                    self.getStatisticsObservable.onNext((courierid: id, storeID: model.storeInfo.id, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
-                }
-            }
+			// 选中时间解包
+			guard let date = date, let selectdate = date.date, let id = self.userInfoID else {
+				self.view.aoaoMakeToast("获取时间失败, 请重试")
+				return
+			}
+			// 选中的时间
+			self.selectDate = selectdate
+			
+			formatter.dateFormat = "yyyy-MM"
+			// 用于展示
+			self.monthStr = formatter.string(from: selectdate)
+			
+			formatter.dateFormat = "yyyyMM01"
+			// 折线图开始时间
+			self.fromDate = formatter.string(from: selectdate)
+
+			/// 如果选中月是当前月
+			/// 结束日期为昨天
+			/// 不是当前月 结束日期为 月底
+			// 时间格式化
+			// selectdate.monthDays 代表这个月的天数
+			// 结束日期为 20230630
+			formatter.dateFormat = "yyyyMM\(selectdate.monthDays)"
+			self.toDate = formatter.string(from: selectdate)
+			
+			formatter.dateFormat = "yyyyMM"
+			// 请求参数 月份
+			let paraDate = formatter.string(from: selectdate)
+			/// 获取骑手信息
+			self.getStatisticsObservable.onNext((courierid: id, date: paraDate))
             
         }
         self.present(datePickManager, animated: true, completion: nil)
@@ -195,9 +185,7 @@ class StatisticsViewController: AAViewController {
             }).disposed(by: disposeBag)
         
 		let input = StatisticsViewModel.Input.init(
-			statisticsDetailObservable: self.getStatisticsObservable,
-			statisticsListObservable: self.statisticsListObservable,
-			getshopListObservable: self.getshopListObservable)
+			statisticsDetailObservable: self.getStatisticsObservable)
 		
 		self.statisticsViewModel = StatisticsViewModel.init(input: input)
 		
@@ -247,46 +235,7 @@ class StatisticsViewController: AAViewController {
 			
 		}).disposed(by: self.disposeBag)
 		
-		/// 店铺列表
-		self.statisticsViewModel?.outPutShopListObservable.subscribe(onNext: { list in
-			self.shopsContentModelList = list
-			if !list.isEmpty {
-				/// 获取选中指定的店铺信息
-				if let storeId = self.storeId, let userID = self.userInfoID {
-					if let model = list.first(where: {$0.storeId == storeId}) {
-						self.shopsModel = model
-						self.selectIndex = 0
-						
-						/// 设置店铺名称
-						self.shopNameLabel.text = model.storeInfo.name
-						
-						/// 获取骑手信息
-						self.statisticsListObservable.onNext((courierid: userID, storeID: storeId, fromDate: self.fromDate, toDate: self.toDate))
-						self.getStatisticsObservable.onNext((courierid: userID, storeID: storeId, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
-						
-						model.isSelect = true
-					}
-					self.selectShopList.isHidden = true
-					self.selectShopHeight.constant = 0
-				} else {
-					self.selectShopList.isHidden = false
-					self.selectShopHeight.constant = 49
-					if let model = list.first, let id = self.userInfoID {
-						self.shopsModel = model
-						self.selectIndex = 0
-						
-						/// 设置店铺名称
-						self.shopNameLabel.text = model.storeInfo?.name
-						
-						/// 获取骑手信息
-						self.statisticsListObservable.onNext((courierid: id, storeID: model.storeInfo.id, fromDate: self.fromDate, toDate: self.toDate))
-						self.getStatisticsObservable.onNext((courierid: id, storeID: model.storeInfo.id, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
-						
-						model.isSelect = true
-					}
-				}
-			}
-		}).disposed(by: disposeBag)
+		
 		
 		/// 折线图处理
 		self.statisticsViewModel?.outPutStatisticsListObservable.subscribe(onNext: { list in
@@ -295,7 +244,7 @@ class StatisticsViewController: AAViewController {
             if let date = self.selectDate{
                 if let monthFirstDay = date.toFormat("yyyy-MM-01").toDate("yyyy-MM-dd", region: Region.current) {
                     for index in 1...date.monthDays {
-                        let day = monthFirstDay + index.days
+						let day = monthFirstDay + index.days
                         
                         lineModelList.append((time: day.date, value: 0))
                     }
@@ -318,48 +267,6 @@ class StatisticsViewController: AAViewController {
 		/// 错误处理
 		self.statisticsViewModel?.outPutErrorObservable.subscribe(onNext: { error in
 			self.view.makeToast(error.zhMessage)
-		}).disposed(by: disposeBag)
-		
-		self.selectShopTap.rx.event.subscribe(onNext: { _ in
-            if self.shopsContentModelList.isEmpty {
-                return
-            }
-			/// 跳转
-			let stroyboard = AACommonMoudle.share.storyboard
-			let shopVc = stroyboard.instantiateViewController(withIdentifier: "SelectShopViewController") as! SelectShopViewController
-			shopVc.modalPresentationStyle = .overCurrentContext
-			
-//			shopVc.chooseKnightObservable.subscribe(onNext: { [unowned self] index in
-//                if !self.shopsContentModelList.isEmpty {
-//					
-//                    self.shopsModel = shopsContentModelList[index]
-//                    
-//					self.selectIndex = index
-//					
-//					self.shopNameLabel.text = shopsContentModelList[index].storeInfo?.name
-//					
-//					shopsContentModelList[index].isSelect = true
-//					
-//					guard let id = shopsContentModelList[index].storeInfo.id else {
-//						return
-//					}
-//					guard let courierid = self.userInfoID else {
-//						return
-//					}
-//                    
-//                    self.statisticsListObservable.onNext((courierid: courierid, storeID: id, fromDate: self.fromDate, toDate: self.toDate))
-//                    self.getStatisticsObservable.onNext((courierid: courierid, storeID: id, date: self.monthStr.replacingOccurrences(of: "-", with: "")))
-//				}
-//				
-//			}).disposed(by: self.disposeBag)
-			/// 每次都回传
-//			shopVc.dateSource = self.shopsContentModelList
-//			shopVc.selectIndex = self.selectIndex
-			self.navigationController?.present(shopVc, animated: true, completion: {
-				UIView.animate(withDuration: 0.5) {
-					shopVc.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-				}
-			})
 		}).disposed(by: disposeBag)
 	}
 }

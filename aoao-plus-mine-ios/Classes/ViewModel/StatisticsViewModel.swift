@@ -20,18 +20,17 @@ class StatisticsViewModel {
 	let outPutStatisticsDetailObservable = PublishSubject<StatisticsDetailModel>()
 	/// 折线图回调
 	let outPutStatisticsListObservable = PublishSubject<[StatisticsDetailModel]>()
-	/// 店铺列表
-	let outPutShopListObservable = PublishSubject<[ShopsContentModel]>()
 	
 	let outPutErrorObservable = PublishSubject<AAErrorModel>()
 	
 	init(input: Input) {
 		
-		input.statisticsDetailObservable.flatMapLatest{ para -> Single<Result<StatisticsDetailModel, AAErrorModel>> in
-            let request = MultiTarget(UpLoadVaccineContentAPI.getStatistics(courierid: para.courierid, storeID: para.storeID, date: para.date))
-			return aoaoAPIProvider.rx.aoaoRequest(request).mapObject(objectType: StatisticsDetailModel.self)
-			
-		}.subscribe(onNext: { res in
+		input.statisticsDetailObservable
+			.map{UpLoadVaccineContentAPI.getStatistics(courierid: $0.courierid, date: $0.date)}
+			.map{MultiTarget($0)}
+			.flatMapLatest{aoaoAPIProvider.rx.aoaoRequestToObservable($0)}
+			.mapObject(objectType: StatisticsDetailModel.self)
+			.subscribe(onNext: { res in
 			switch res {
 			case .success(let model):
 				self.outPutStatisticsDetailObservable.onNext(model)
@@ -41,42 +40,42 @@ class StatisticsViewModel {
 		}).disposed(by: disposebag)
 		
 		/// 折线图
-		input.statisticsListObservable.flatMapLatest{ para -> Single<Result<[StatisticsDetailModel], AAErrorModel>> in
-            let request = MultiTarget(UpLoadVaccineContentAPI.getStatisticsList(courierid: para.courierid, storeID: para.storeID, fromDate: para.fromDate, toDate: para.toDate))
-			return aoaoAPIProvider.rx.aoaoRequest(request).mapArray(dataType: StatisticsDetailModel.self)
-			
-		}.subscribe(onNext: { res in
-			switch res {
-			case .success(let list):
-				self.outPutStatisticsListObservable.onNext(list)
-			case .failure(let error):
-				self.outPutErrorObservable.onNext(error)
-			}
-		}).disposed(by: disposebag)
+//		input.statisticsListObservable.flatMapLatest{ para -> Single<Result<[StatisticsDetailModel], AAErrorModel>> in
+//            let request = MultiTarget(UpLoadVaccineContentAPI.getStatisticsList(courierid: para.courierid, storeID: para.storeID, fromDate: para.fromDate, toDate: para.toDate))
+//			return aoaoAPIProvider.rx.aoaoRequest(request).mapArray(dataType: StatisticsDetailModel.self)
+//
+//		}.subscribe(onNext: { res in
+//			switch res {
+//			case .success(let list):
+//				self.outPutStatisticsListObservable.onNext(list)
+//			case .failure(let error):
+//				self.outPutErrorObservable.onNext(error)
+//			}
+//		}).disposed(by: disposebag)
 		
 		/// 获取店铺列表
-		input.getshopListObservable.flatMapLatest{ id -> Single<Result<[ShopsContentModel], AAErrorModel>> in
-			let request = MultiTarget(UpLoadVaccineContentAPI.getShopList(accountID: id))
-			return aoaoAPIProvider.rx.aoaoRequest(request).mapArray(dataType: ShopsContentModel.self)
-			
-		}.subscribe(onNext: { res in
-			switch res {
-			case .success(let list):
-				self.outPutShopListObservable.onNext(list)
-			case .failure(let error):
-				self.outPutErrorObservable.onNext(error)
-			}
-		}).disposed(by: disposebag)
+//		input.getshopListObservable.flatMapLatest{ id -> Single<Result<[ShopsContentModel], AAErrorModel>> in
+//			let request = MultiTarget(UpLoadVaccineContentAPI.getShopList(accountID: id))
+//			return aoaoAPIProvider.rx.aoaoRequest(request).mapArray(dataType: ShopsContentModel.self)
+//
+//		}.subscribe(onNext: { res in
+//			switch res {
+//			case .success(let list):
+//				self.outPutShopListObservable.onNext(list)
+//			case .failure(let error):
+//				self.outPutErrorObservable.onNext(error)
+//			}
+//		}).disposed(by: disposebag)
 	}
 
 }
 extension StatisticsViewModel {
 	struct Input {
 		/// 获取骑手信息
-        let statisticsDetailObservable: Observable<(courierid: String, storeID: String, date: String)>
+        let statisticsDetailObservable: Observable<(courierid: String, date: String)>
 		/// 获取骑手信息(折线图)
-        let statisticsListObservable: Observable<(courierid: String, storeID: String, fromDate: String, toDate: String)>
+//        let statisticsListObservable: Observable<(courierid: String, storeID: String, fromDate: String, toDate: String)>
 		/// 获取店铺列表
-		let getshopListObservable: Observable<String>
+//		let getshopListObservable: Observable<String>
 	}
 }

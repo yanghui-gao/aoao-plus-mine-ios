@@ -45,12 +45,14 @@ public enum UpLoadVaccineContentAPI {
 	/// 更新骑手在职状态 - 关闭接单状态
 	case switchWorkState(id: String, workState: Int)
 	
+	/// 获取骑手统计信息
+	case getStatistics(courierid: String, date: String)
+	
 	
 	
 	/// 获取骑手统计信息(折线图)
     case getStatisticsList(courierid: String, storeID: String, fromDate: String, toDate: String)
-	/// 获取骑手统计信息
-    case getStatistics(courierid: String, storeID: String, date: String)
+	
 	
 	
 	
@@ -125,10 +127,10 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			params["from_date"] = from_date
 			params["end_date"] = end_date
 			
-		case .getStatistics(let id, let storeID, let date):
+		case .getStatistics(let id, let date):
 			params["courier_id"] = id
-			params["work_month"] = date
-			params["store_id"] = storeID
+			params["month"] = date
+
 			
 		case .getShopList(let accountID):
 			params["courier_id"] = accountID
@@ -155,11 +157,14 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			return ["X-CMD":"aoao.auth.token.logout"]
 		case .getCode(_, _):
 			return ["X-CMD":"aoao.auth.auth.send_verify_code"]
+		case .getStatistics(_, _):
+			return ["X-CMD":"aoao.courier.order.performance"]
+		case .setNewPassWord(_,_):
+			return ["X-CMD":"aoao.auth.token.reset_password"]
 			// MARK: 2.0
 		case .getVaccineContent(_):
 			return ["X-CMD":"dms.certificate.vaccination.get"]
-		case .setNewPassWord(_,_):
-			return ["X-CMD":"aoao.auth.token.reset_password"]
+		
 		case .getShopList(_):
 			return ["X-CMD":"dms.courier.courier_work_store.find"]
 		case .upLoadVaccineContent(_, _, _, _, _, _):
@@ -173,8 +178,7 @@ extension UpLoadVaccineContentAPI: TargetType, AuthenticationProtocol {
 			
 		case .getStatisticsList(_, _, _, _):
 			return ["X-CMD":"dms.statistic.order.find_range_daily_courier_order"]
-		case .getStatistics(_, _, _):
-			return ["X-CMD":"dms.statistic.order.get_daily_courier_order"]
+		
 		case .checkNewPhone(_, _):
 			return ["X-CMD":"dms.courier.courier.check"]
 		}
