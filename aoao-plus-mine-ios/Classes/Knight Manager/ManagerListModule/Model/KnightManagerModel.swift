@@ -33,8 +33,11 @@ class KnightManagerModel : NSObject, NSCoding, AAModelProtocol{
 		return DeliveryState.init(rawValue: deliveryState) ?? .none
 	}
 	// 是否展示离线按钮
-	// 工作状态 == 离线 就展示
-	var isShowDismissButton:Bool {
+	// 工作状态 == 离线 就隐藏
+	var isHideDismissButton:Bool {
+		if self.id == UserModelManager.manager.userInfoModel?.id {
+			return true
+		}
 		return userWorkState == .offline
 	}
 	// 状态(100:在职/-100:离职)

@@ -40,7 +40,7 @@ class KnightManagerTableViewCell: UITableViewCell {
 				self.leadingView.isHidden = model.knightRoleType == .normalKnight
 				self.distributionView.isHidden = !model.isDelivery
 				self.phoneLabel.text = model.phoneStr
-				self.dimissionButton.isHidden = !model.isShowDismissButton
+				self.dimissionButton.isHidden = model.isHideDismissButton
 				self.noneOrderView.isHidden = model.isDelivery
 				// 是否展示驻店
 				self.residentView.isHidden = model.storeids.isEmpty
