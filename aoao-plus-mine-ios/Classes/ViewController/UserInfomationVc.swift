@@ -68,7 +68,8 @@ class UserInfomationVc: AAViewController {
 			if model.id == UserModelManager.manager.userInfoModel?.id {
 				/// 如果查看的是本人的信息可以更新用户信息
 				self.updateTemporaryIDInfoButton.isHidden = false
-				self.idCardTipLabel.isHidden = !model.idCardInfo.idCardIsOverDate
+				self.idCardTipLabel.isHidden = model.idCardInfo.isHiddenTipLabel
+				self.idCardTipLabel.text = model.idCardInfo.idCardTipLabelText
 			} else {
 				self.updateTemporaryIDInfoButton.isHidden = true
 				self.idCardTipLabel.isHidden = true

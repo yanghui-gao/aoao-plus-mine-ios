@@ -733,7 +733,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* 您的身份证件即将过期，请尽快更新证件照片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Seq-LS-dX3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* 您的身份证件已过期，请尽快更新证件照片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Seq-LS-dX3">
                                 <rect key="frame" x="0.0" y="766" width="414" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="enM-Qx-3sz"/>
@@ -2166,7 +2166,6 @@
                                             <outlet property="distributionView" destination="52y-Q6-A5W" id="a1S-1Y-2e4"/>
                                             <outlet property="knightContentView" destination="QbW-In-9il" id="2kE-en-HTy"/>
                                             <outlet property="leaderView" destination="w7q-wS-N6V" id="cHb-4I-Vah"/>
-                                            <outlet property="leadingView" destination="O2z-ia-bXI" id="u8z-Rj-W0I"/>
                                             <outlet property="nameLabel" destination="7KM-vA-yHA" id="0SC-td-w22"/>
                                             <outlet property="nonResidentView" destination="dur-Qx-8br" id="yez-wq-3qD"/>
                                             <outlet property="noneOrderView" destination="aEv-sr-Fc9" id="kcn-yY-XME"/>

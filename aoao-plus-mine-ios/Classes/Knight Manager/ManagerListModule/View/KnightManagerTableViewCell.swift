@@ -37,7 +37,7 @@ class KnightManagerTableViewCell: UITableViewCell {
 			if let model = self.model {
 				self.nameLabel.text = model.name
 				self.leaderView.isHidden = model.knightRoleType == .normalKnight
-				self.leadingView.isHidden = model.knightRoleType == .normalKnight
+//				self.leadingView.isHidden = model.knightRoleType == .normalKnight
 				self.distributionView.isHidden = !model.isDelivery
 				self.phoneLabel.text = model.phoneStr
 				self.dimissionButton.isHidden = model.isHideDismissButton
