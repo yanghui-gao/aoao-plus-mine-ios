@@ -19,7 +19,7 @@ class StatisticsViewModel {
 	/// 骑手信息
 	let outPutStatisticsDetailObservable = PublishSubject<StatisticsDetailModel>()
 	/// 折线图回调
-	let outPutStatisticsListObservable = PublishSubject<[StatisticsDetailModel]>()
+	let outPutStatisticsListObservable = PublishSubject<[Int]>()
 	
 	let outPutErrorObservable = PublishSubject<AAErrorModel>()
 	
@@ -33,6 +33,7 @@ class StatisticsViewModel {
 			.subscribe(onNext: { res in
 			switch res {
 			case .success(let model):
+				self.outPutStatisticsListObservable.onNext(model.dayDoneCountList)
 				self.outPutStatisticsDetailObservable.onNext(model)
 			case .failure(let error):
 				self.outPutErrorObservable.onNext(error)

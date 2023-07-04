@@ -50,6 +50,7 @@ class StatisticsDetailModel : NSObject, NSCoding, AAModelProtocol{
 	var cancelCount: Int!
 	/// 有效订单数量
 	var effectCount: Int!
+	var dayDoneCountList:[Int] = []
 	var updateAtStr: String {
 		if let updateAt = self.updatedAt, !updateAt.isEmpty{
 			return updateAt.changeTimeStandardFromDateFormat() ?? ""
@@ -274,6 +275,7 @@ class StatisticsDetailModel : NSObject, NSCoding, AAModelProtocol{
 		if !courierInfoJson.isEmpty{
 			courierInfo = StatisticsDetailCourierInfo(fromJson: courierInfoJson)
 		}
+		dayDoneCountList = json["day_done_count_list"].arrayValue.map{$0.intValue}
 		cph = json["cph"].intValue
 		createdAt = json["created_at"].stringValue
 		deliveryArrivedTime = json["delivery_arrived_time"].intValue
@@ -282,7 +284,7 @@ class StatisticsDetailModel : NSObject, NSCoding, AAModelProtocol{
 		done20Rate = json["done_20_rate"].stringValue
 		done30Count = json["done_30_count"].intValue
 		done30Rate = json["done_30_rate"].stringValue
-		doneViolationCount = json["done_violation_count"].intValue
+		doneViolationCount = json["advance_close_count"].intValue
 		doneViolationRate = json["done_violation_rate"].stringValue
 		effectSales = json["effect_sales"].intValue
 		hardlyTc = json["hardly_tc"].intValue
@@ -293,7 +295,7 @@ class StatisticsDetailModel : NSObject, NSCoding, AAModelProtocol{
 		}
 		mergeCount = json["merge_count"].intValue
 		mergeRate = json["merge_rate"].stringValue
-		orderTc = json["order_tc"].intValue
+		orderTc = json["done_count"].intValue
 		reachViolationCount = json["reach_violation_count"].intValue
 		reachViolationRate = json["reach_violation_rate"].stringValue
 		realWorkTime = json["real_work_time"].intValue

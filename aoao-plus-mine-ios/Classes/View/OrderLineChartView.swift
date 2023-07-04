@@ -51,16 +51,16 @@ class OrderLineChartView: UIView, ChartViewDelegate {
 		setUI()
 	}
 	func setUI() {
-		self.scrollView = UIScrollView(frame: CGRect.init(x: 16, y: 0, width: self.frame.size.width, height: self.frame.size.height))
-		scrollView.showsHorizontalScrollIndicator = false
-		scrollView.showsVerticalScrollIndicator = false
-		scrollView.isUserInteractionEnabled = true
-		self.addSubview(scrollView)
+//		self.scrollView = UIScrollView(frame: CGRect.init(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+//		scrollView.showsHorizontalScrollIndicator = false
+//		scrollView.showsVerticalScrollIndicator = false
+//		scrollView.isUserInteractionEnabled = true
+//		self.addSubview(scrollView)
 		
 		self.chartView = LineChartView.init(frame: CGRect.init(x: 0, y: 0, width: Int(lineChartWidth), height: Int(lineChartHeight)))
 		self.chartView.isUserInteractionEnabled = true
 		self.chartView.noDataText = self.noneDataText
-		scrollView.addSubview(self.chartView)
+		self.addSubview(self.chartView)
 		
 		//设置交互样式
 		self.chartView.scaleYEnabled = false //取消Y轴缩放
@@ -69,18 +69,15 @@ class OrderLineChartView: UIView, ChartViewDelegate {
 		self.chartView.dragDecelerationEnabled = true //拖拽后是否有惯性效果
 		self.chartView.dragDecelerationFrictionCoef = 0.9 //拖拽后惯性效果摩擦系数(0~1)越小惯性越不明显
 		self.chartView.delegate = self
-		
+		self.chartView.zoom(scaleX: 4, scaleY: 1, x: 0, y: 0)
 		// 下方的图例
 		self.chartView.legend.enabled = false
 	}
 	func reloadData() {
 		
 		let needWidth: CGFloat = CGFloat(xLineSpace * self.lineModelList.count)
-		if needWidth > lineChartWidth {
-			scrollView.contentSize = CGSize.init(width: needWidth, height: scrollView.frame.size.height)
-		}
 		
-		self.chartView.frame = CGRect.init(x: 0, y: 0, width: Int(max(scrollView.contentSize.width, lineChartWidth)) - 16 * 2, height: Int(lineChartHeight))
+		self.chartView.frame = CGRect.init(x: 0, y: 0, width: Int(needWidth), height: Int(lineChartHeight))
 		
 		var dataEntries = [ChartDataEntry]()
 		

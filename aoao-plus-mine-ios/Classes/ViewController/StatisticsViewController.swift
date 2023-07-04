@@ -128,9 +128,9 @@ class StatisticsViewController: AAViewController {
         datePicker?.minimumDate = minDate
 		// 结束时间
         datePicker?.maximumDate = today
-        datePicker?.selectedDate = { date in
+        datePicker?.selectedDate = { dateComponents in
 			// 选中时间解包
-			guard let date = date, let selectdate = date.date, let id = self.userInfoID else {
+			guard let dateComponents = dateComponents, let selectdate = Calendar.current.date(from: dateComponents), let id = self.userInfoID else {
 				self.view.aoaoMakeToast("获取时间失败, 请重试")
 				return
 			}
@@ -245,16 +245,8 @@ class StatisticsViewController: AAViewController {
                 if let monthFirstDay = date.toFormat("yyyy-MM-01").toDate("yyyy-MM-dd", region: Region.current) {
                     for index in 1...date.monthDays {
 						let day = monthFirstDay + index.days
-                        
-                        lineModelList.append((time: day.date, value: 0))
-                    }
-                }
-                for index in 0...lineModelList.count - 1 {
-                    for model in list {
-                        let dayNumber = Int(lineModelList[index].time.toFormat("yyyyMMdd"))
-                        if model.workDate == dayNumber {
-                            lineModelList[index].value = model.orderTc
-                        }
+                        let value = list[index - 1]
+                        lineModelList.append((time: day.date, value: value))
                     }
                 }
                 print(lineModelList)
