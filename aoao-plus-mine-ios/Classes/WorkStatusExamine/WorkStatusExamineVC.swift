@@ -91,7 +91,7 @@ class WorkStatusExamineVC: AAViewController {
 	}
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		self.navigationController?.setNavigationBarHidden(false, animated: animated)
+//		self.navigationController?.setNavigationBarHidden(false, animated: animated)
 		guard let id = UserModelManager.manager.userInfoModel?.id else {
 			return
 		}
@@ -105,7 +105,7 @@ class WorkStatusExamineVC: AAViewController {
 	}
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		self.navigationController?.setNavigationBarHidden(true, animated: animated)
+//		self.navigationController?.setNavigationBarHidden(true, animated: animated)
 	}
 	func setUI() {
 		self.title = "接单检测"
@@ -130,6 +130,14 @@ class WorkStatusExamineVC: AAViewController {
 				self.voice_vibrationSuccessIcon.isHidden = !isOk
 			}
 		}).disposed(by: disposeBag)
+        
+        AAPermissionsManager.manager.authentication.subscribe(onNext: { [unowned self] isOk in
+            DispatchQueue.main.async {
+                self.unAttestationLabel.isHidden = isOk
+                self.attestationSuccessLabel.isHidden = !isOk
+                self.attestationSuccessIcon.isHidden = !isOk
+            }
+        }).disposed(by: disposeBag)
 		
 		/// 定位
 		AAPermissionsManager.manager.isAuthorizationServiceOpen.subscribe(onNext: { [unowned self] isOk in
@@ -219,7 +227,11 @@ class WorkStatusExamineVC: AAViewController {
 		}).disposed(by: disposeBag)
 		
 	}
-	
+    // 实名认证点击
+    @IBAction func attestationTap(_ sender: UITapGestureRecognizer) {
+        // 重新实名
+        "idCardAuthentication".openURL()
+    }
 	@IBAction func notificationTap(_ sender: UITapGestureRecognizer) {
 		/// 管理通知权限
 		AAPermissionsManager.manager.getCurrentAuthorizationPermissions()
