@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ContractVC-->
+        <scene sceneID="DXj-MF-uuA">
+            <objects>
+                <viewController storyboardIdentifier="ContractVC" id="o7B-ST-Kq8" customClass="ContractVC" customModule="aoao_plus_mine_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XLR-Pk-hTU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdZ-1p-7ld">
+                                <rect key="frame" x="16" y="772" width="361" height="46"/>
+                                <color key="backgroundColor" name="button_3589DE_0087FF"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="f3i-7w-GVY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
+                                <state key="normal" title="您有一份待签约合同, 请签约">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="j2o-wZ-vCf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hdZ-1p-7ld" firstAttribute="centerX" secondItem="j2o-wZ-vCf" secondAttribute="centerX" id="EAJ-tt-Lff"/>
+                            <constraint firstItem="hdZ-1p-7ld" firstAttribute="bottom" secondItem="j2o-wZ-vCf" secondAttribute="bottom" id="r0I-SZ-zEJ"/>
+                            <constraint firstItem="hdZ-1p-7ld" firstAttribute="leading" secondItem="j2o-wZ-vCf" secondAttribute="leading" constant="16" id="wVw-je-COU"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GRB-oU-GFe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="190" y="-65"/>
+        </scene>
+        <!--Sign Vc-->
+        <scene sceneID="0iw-Ib-tkq">
+            <objects>
+                <viewController storyboardIdentifier="SignVc" id="hVY-ki-mHa" customClass="SignVc" customModule="aoao_plus_mine_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zto-7J-oVU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bYH-GL-p4a">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SXm-To-UA2">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="812"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="812" id="kXw-Yn-VFC"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="SXm-To-UA2" firstAttribute="leading" secondItem="iB5-uZ-RIO" secondAttribute="leading" id="Ko6-AP-nUZ"/>
+                                    <constraint firstItem="SXm-To-UA2" firstAttribute="bottom" secondItem="iB5-uZ-RIO" secondAttribute="bottom" id="UEg-bg-tU4"/>
+                                    <constraint firstItem="SXm-To-UA2" firstAttribute="trailing" secondItem="iB5-uZ-RIO" secondAttribute="trailing" id="a6D-lb-zv5"/>
+                                    <constraint firstItem="SXm-To-UA2" firstAttribute="top" secondItem="iB5-uZ-RIO" secondAttribute="top" id="h6a-lt-vWu"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="iB5-uZ-RIO"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="7FE-Eo-tm6"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXJ-SA-0Yt">
+                                <rect key="frame" x="16" y="772" width="361" height="46"/>
+                                <color key="backgroundColor" name="button_3589DE_0087FF"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="m70-sv-McC"/>
+                                </constraints>
+                                <state key="normal" title="签约">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="signleClicked:" destination="hVY-ki-mHa" eventType="touchUpInside" id="Fni-QK-Usk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="q4n-L8-5q8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hXJ-SA-0Yt" firstAttribute="bottom" secondItem="zto-7J-oVU" secondAttribute="bottom" constant="-34" id="9VC-ha-357"/>
+                            <constraint firstItem="bYH-GL-p4a" firstAttribute="leading" secondItem="q4n-L8-5q8" secondAttribute="leading" id="ASQ-Tv-v1r"/>
+                            <constraint firstItem="bYH-GL-p4a" firstAttribute="trailing" secondItem="q4n-L8-5q8" secondAttribute="trailing" id="DQA-Jv-aCc"/>
+                            <constraint firstItem="hXJ-SA-0Yt" firstAttribute="leading" secondItem="q4n-L8-5q8" secondAttribute="leading" constant="16" id="HeL-ny-lJS"/>
+                            <constraint firstItem="bYH-GL-p4a" firstAttribute="top" secondItem="zto-7J-oVU" secondAttribute="top" id="TO9-hq-wmx"/>
+                            <constraint firstItem="SXm-To-UA2" firstAttribute="width" secondItem="zto-7J-oVU" secondAttribute="width" id="cqY-Yk-UHh"/>
+                            <constraint firstItem="hXJ-SA-0Yt" firstAttribute="centerX" secondItem="q4n-L8-5q8" secondAttribute="centerX" id="e6B-4C-SEW"/>
+                            <constraint firstAttribute="bottom" secondItem="bYH-GL-p4a" secondAttribute="bottom" id="rLm-Lj-ZRF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="contentHeight" destination="kXw-Yn-VFC" id="7h9-DY-ufV"/>
+                        <outlet property="imageContentView" destination="SXm-To-UA2" id="FOV-Ep-rmY"/>
+                        <outlet property="signButton" destination="hXJ-SA-0Yt" id="jRO-bY-Ynf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="No0-Nh-qGe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="909" y="-65"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="button_3589DE_0087FF">
+            <color red="0.0" green="0.67799997329711914" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

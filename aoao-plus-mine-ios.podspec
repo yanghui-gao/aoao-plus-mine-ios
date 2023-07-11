@@ -28,14 +28,17 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/高炀辉/aoao-plus-mine-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.0'
 
   s.source_files = 'aoao-plus-mine-ios/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'aoao-plus-mine-ios' => ['aoao-plus-mine-ios/Assets/*.png']
-  # }
-
+   s.resource_bundles = {
+     'aoao-plus-mine-ios' => ['aoao-plus-mine-ios/Assets/*']
+   }
+	 s.dependency 'aoao-plus-net-ios'
+	 s.dependency 'aoao-plus-common-ios'
+	 s.dependency 'PGDatePicker', '2.6.9'
+	 s.dependency 'JXPhotoBrowser', '3.0'
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
