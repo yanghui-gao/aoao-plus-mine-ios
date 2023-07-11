@@ -50,7 +50,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPx-ls-r9r">
-                                                    <rect key="frame" x="43" y="74" width="35" height="17"/>
+                                                    <rect key="frame" x="43" y="74" width="35.333333333333343" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -94,17 +94,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已实名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDm-6t-HfH">
-                                <rect key="frame" x="137" y="106.33333333333333" width="39" height="18"/>
-                                <color key="backgroundColor" name="Color_DBF8EB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="MCW-Qj-DV3"/>
-                                    <constraint firstAttribute="width" constant="39" id="kQJ-Ju-igI"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" name="Color_00AD66"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2H-5o-F2z">
                                 <rect key="frame" x="10" y="44" width="28" height="44"/>
                                 <constraints>
@@ -113,40 +102,71 @@
                                 </constraints>
                                 <state key="normal" image="popBack"/>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L4X-Dw-SA5">
+                                <rect key="frame" x="137" y="106.33333333333333" width="39" height="18"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已实名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDm-6t-HfH">
+                                        <rect key="frame" x="0.0" y="0.0" width="39" height="18"/>
+                                        <color key="backgroundColor" name="Color_DBF8EB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="18" id="MCW-Qj-DV3"/>
+                                            <constraint firstAttribute="width" constant="39" id="kQJ-Ju-igI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" name="Color_00AD66"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未实名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D8l-rj-AFc">
+                                        <rect key="frame" x="0.0" y="0.0" width="39" height="18"/>
+                                        <color key="backgroundColor" name="Color_FF672B"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="39" id="4oa-rk-Kob"/>
+                                            <constraint firstAttribute="height" constant="18" id="OHb-ZO-qTj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" name="Color_FF6B31"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="UUF-54-eri"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="X5v-8I-Pcb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="eDm-6t-HfH" firstAttribute="centerY" secondItem="v8f-Yp-gXe" secondAttribute="centerY" id="0Ug-Nk-BB8"/>
                             <constraint firstItem="nAt-6I-I4b" firstAttribute="bottom" secondItem="bEQ-jT-74W" secondAttribute="bottom" constant="-5" id="1ex-sG-i9q"/>
                             <constraint firstItem="6ca-SK-WaG" firstAttribute="top" secondItem="NHL-xS-07J" secondAttribute="bottom" id="5Do-Qg-Qxt"/>
                             <constraint firstItem="bEQ-jT-74W" firstAttribute="leading" secondItem="X5v-8I-Pcb" secondAttribute="leading" constant="10" id="6DB-VZ-Qlb"/>
                             <constraint firstItem="nAt-6I-I4b" firstAttribute="leading" secondItem="v8f-Yp-gXe" secondAttribute="leading" id="9N4-11-NGl"/>
                             <constraint firstItem="6ca-SK-WaG" firstAttribute="leading" secondItem="X5v-8I-Pcb" secondAttribute="leading" id="FkS-hW-w1o"/>
                             <constraint firstItem="v8f-Yp-gXe" firstAttribute="top" secondItem="bEQ-jT-74W" secondAttribute="top" constant="5" id="G6R-KP-eTf"/>
-                            <constraint firstItem="eDm-6t-HfH" firstAttribute="leading" secondItem="v8f-Yp-gXe" secondAttribute="trailing" constant="10" id="QV3-sh-icb"/>
                             <constraint firstItem="v8f-Yp-gXe" firstAttribute="leading" secondItem="bEQ-jT-74W" secondAttribute="trailing" constant="14" id="UPe-W4-bgj"/>
                             <constraint firstItem="X5v-8I-Pcb" firstAttribute="bottom" secondItem="6ca-SK-WaG" secondAttribute="bottom" id="WzA-oI-6Jr"/>
                             <constraint firstItem="w2H-5o-F2z" firstAttribute="top" secondItem="X5v-8I-Pcb" secondAttribute="top" id="YSf-UM-GQC"/>
+                            <constraint firstItem="L4X-Dw-SA5" firstAttribute="centerY" secondItem="v8f-Yp-gXe" secondAttribute="centerY" id="hNU-ox-LbZ"/>
                             <constraint firstItem="X5v-8I-Pcb" firstAttribute="trailing" secondItem="6ca-SK-WaG" secondAttribute="trailing" id="hbg-x8-qUr"/>
                             <constraint firstItem="NHL-xS-07J" firstAttribute="leading" secondItem="X5v-8I-Pcb" secondAttribute="leading" id="kmb-Aj-nNd"/>
                             <constraint firstItem="NHL-xS-07J" firstAttribute="top" secondItem="aM7-75-RQr" secondAttribute="top" id="ls9-pv-e3g"/>
                             <constraint firstItem="6ca-SK-WaG" firstAttribute="top" secondItem="bEQ-jT-74W" secondAttribute="bottom" constant="20" id="nil-dO-OzM"/>
                             <constraint firstItem="NHL-xS-07J" firstAttribute="trailing" secondItem="X5v-8I-Pcb" secondAttribute="trailing" id="qBa-q8-NDW"/>
                             <constraint firstItem="w2H-5o-F2z" firstAttribute="leading" secondItem="X5v-8I-Pcb" secondAttribute="leading" constant="10" id="tj0-bf-cDf"/>
+                            <constraint firstItem="L4X-Dw-SA5" firstAttribute="leading" secondItem="v8f-Yp-gXe" secondAttribute="trailing" constant="10" id="zXn-jI-8K0"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="autonymStatusLabel" destination="eDm-6t-HfH" id="WQn-6o-g8G"/>
+                        <outlet property="authenticationLabel" destination="eDm-6t-HfH" id="L9z-2H-Nqi"/>
                         <outlet property="configurationCollectionView" destination="6ca-SK-WaG" id="D85-kG-l6o"/>
                         <outlet property="nameLabel" destination="v8f-Yp-gXe" id="cdh-gb-gNb"/>
                         <outlet property="phoneLabel" destination="nAt-6I-I4b" id="5lu-cJ-Rhw"/>
                         <outlet property="rightButton" destination="w2H-5o-F2z" id="eHa-Iy-r65"/>
+                        <outlet property="unAuthenticationLabel" destination="D8l-rj-AFc" id="ydU-SU-pjk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YaF-V3-za6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-229" y="390"/>
+            <point key="canvasLocation" x="-230.43478260869566" y="389.73214285714283"/>
         </scene>
         <!--Knight View Controller-->
         <scene sceneID="iJx-Kh-eg8">
@@ -3047,6 +3067,9 @@
                                                     <constraint firstItem="BHy-YL-X3C" firstAttribute="centerY" secondItem="Uae-bX-V11" secondAttribute="centerY" id="xfj-si-d4n"/>
                                                     <constraint firstAttribute="height" constant="44" id="yEG-vh-t6Y"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="95p-5S-sTY" appends="YES" id="sIE-7Z-O65"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WKg-em-fkc">
                                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3451,7 +3474,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="attestationSuccessIcon" destination="sfB-3C-tWV" id="PeI-fJ-nAQ"/>
+                        <outlet property="attestationSuccessIcon" destination="Uae-bX-V11" id="UWj-s3-EnN"/>
                         <outlet property="attestationSuccessLabel" destination="BHy-YL-X3C" id="khR-oO-x3u"/>
                         <outlet property="attestationView" destination="srI-OQ-Dx8" id="8Zw-Bi-aGc"/>
                         <outlet property="cameraErrorLabel" destination="DfF-2M-ePO" id="p2O-Rw-Lfv"/>
@@ -3479,6 +3502,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="buQ-Gs-dON" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="95p-5S-sTY">
+                    <connections>
+                        <action selector="attestationTap:" destination="OZZ-FY-ePr" id="TxO-Zg-eUe"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <tapGestureRecognizer id="bzw-yL-jdZ" userLabel="Voice">
                     <connections>
                         <action selector="voice_vibrationTap:" destination="OZZ-FY-ePr" id="uLa-Z1-sbT"/>
@@ -3539,6 +3567,12 @@
         </namedColor>
         <namedColor name="Color_E84335-80">
             <color red="0.9100000262260437" green="0.2630000114440918" blue="0.20800000429153442" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_FF672B">
+            <color red="1" green="0.40400001406669617" blue="0.16899999976158142" alpha="0.059999998658895493" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color_FF6B31">
+            <color red="1" green="0.41999998688697815" blue="0.19200000166893005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="aoao_000000-20_FFFFFF-20">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>

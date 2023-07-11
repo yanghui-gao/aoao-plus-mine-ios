@@ -15,7 +15,10 @@ class MineViewController: AAViewController {
 	/// 骑手电话
 	@IBOutlet weak var phoneLabel: UILabel!
 	/// 实名状态
-	@IBOutlet weak var autonymStatusLabel: UILabel!
+	@IBOutlet weak var authenticationLabel: UILabel!
+    /// 未实名
+    @IBOutlet weak var unAuthenticationLabel: UILabel!
+    
 	/// 入职状态图标
 //	@IBOutlet weak var jobStatusimageView: UIImageView!
 	/// 操作配置CollectionView
@@ -50,8 +53,18 @@ class MineViewController: AAViewController {
 		layout.itemSize = CGSize(width: self.view.frame.width / 3 - 15, height: self.view.frame.width / 3)
 		self.configurationCollectionView.collectionViewLayout = layout
 		
-		self.autonymStatusLabel.layer.masksToBounds = true
-        self.autonymStatusLabel.layer.cornerRadius = 9
+		self.authenticationLabel.layer.masksToBounds = true
+        self.authenticationLabel.layer.cornerRadius = 9
+        
+        self.unAuthenticationLabel.layer.masksToBounds = true
+        self.unAuthenticationLabel.layer.cornerRadius = 9
+        
+       
+        if let user = UserModelManager.manager.userInfoModel {
+            self.authenticationLabel.isHidden = user.authenticateState == .unAuthentication
+            self.unAuthenticationLabel.isHidden = user.authenticateState == .authenticated
+        }
+       
 		setCollectionDateSource()
 	}
 	func bindViewModel() {

@@ -150,6 +150,10 @@ class KnightViewController: AAViewController {
 			} else {
 				/// 合同信息未完善
 				/// 签约
+                /// 从骑手管理页 不跳转签约
+                if KnightInfoPushType == .knightManager {
+                    return
+                }
 				"sign".openURL()
 			}
 			
